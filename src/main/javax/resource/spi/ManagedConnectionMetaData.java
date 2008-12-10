@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,48 +19,59 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
 import javax.resource.ResourceException;
 
-/**
- * The ManagedConnectionMetaData interface provides information about the
- * underlying resource associated with a ManagedConnetion. The Application
- * Server can use this information to get information at runtime from the
- * underlying resource.
- */
-public interface ManagedConnectionMetaData
-{
-   /**
-	 * Returns product name of the underlying resource.
-    * 
-    * @return the product name
-    * @throws ResourceException for a generic error 
-	 */
-   public String getEISProductName() throws ResourceException;
+/** The ManagedConnectionMetaData interface provides information about the 
+ *  underlying EIS instance associated with a ManagedConnection instance.
+ *  An application server uses this information to get runtime information
+ *  about a connected EIS instance.
+ *
+ *  <p>The method ManagedConnection.getMetaData returns a 
+ *  ManagedConnectionMetaData instance.
+ *  
+ *  @version     0.8
+ *  @author      Rahul Sharma
+ *  @see         javax.resource.spi.ManagedConnection
+**/
 
-   /**
-	 * Returns product version of the underlying resource.
-    * 
-    * @return the product version
-    * @throws ResourceException for a generic error 
-	 */
-   public String getEISProductVersion() throws ResourceException;
+public interface ManagedConnectionMetaData {
 
-   /**
-	 * Returns the maximum supported number of connections allowed to the
-	 * underlying resource.
-    * 
-    * @return the maximum number of connections
-    * @throws ResourceException for a generic error 
-	 */
-   public int getMaxConnections() throws ResourceException;
+  /** Returns Product name of the underlying EIS instance connected 
+   *  through the ManagedConnection.
+   *
+   *  @return  Product name of the EIS instance.
+  **/
+  public
+  String getEISProductName() throws ResourceException;
 
-   /**
-	 * Returns user name associated with the underlying connection.
-    * 
-    * @return the user name
-    * @throws ResourceException for a generic error 
-	 */
-   public String getUserName() throws ResourceException;
+  /** Returns product version of the underlying EIS instance connected 
+   *  through the ManagedConnection.
+   *
+   *  @return  Product version of the EIS instance
+  **/
+  public
+  String getEISProductVersion() throws ResourceException;
+
+  /** Returns maximum limit on number of active concurrent connections 
+   *  that an EIS instance can support across client processes. If an EIS 
+   *  instance does not know about (or does not have) any such limit, it 
+   *  returns a 0.
+   *
+   *  @return  Maximum limit for number of active concurrent connections
+  **/
+  public
+  int getMaxConnections() throws ResourceException;
+  
+  /** Returns name of the user associated with the ManagedConnection
+   *  instance. The name corresponds to the resource principal under whose
+   *  whose security context, a connection to the EIS instance has been
+   *  established.
+   *
+   *  @return  name of the user
+  **/
+  public
+  String getUserName() throws ResourceException;
 }

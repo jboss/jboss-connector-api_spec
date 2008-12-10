@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,62 +19,65 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
-import javax.resource.ResourceException;
-
 /**
- * Thrown when a shared connection is used in an unshareable manner.
+ * This is thrown to indicate a connection sharing violation. 
+ *
+ * <p>This may be thrown by a resource adapter when an application 
+ * uses a shareable connection in an unshareable manner.
+ *
+ * @version 1.0
+ * @author  Ram Jeyaraman
  */
-public class SharingViolationException extends ResourceException
-{
-   /**
-	 * Create an exception.
-	 */
-   public SharingViolationException()
-   {
-      super();
-   }
+public class SharingViolationException 
+        extends javax.resource.ResourceException {
 
-   /**
-	 * Create an exception with a reason.
-	 * 
-	 * @param reason the reason
-	 */
-   public SharingViolationException(String reason)
-   {
-      super(reason);
-   }
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public SharingViolationException() { super(); }
 
-   /**
-	 * Create an exception with a reason and an errorCode.
-	 * 
-	 * @param reason the reason
-	 * @param errorCode the error code
-	 */
-   public SharingViolationException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public SharingViolationException(String message) {
+	super(message);
+    }
 
-   /**
-	 * Create an exception with a reason and an error.
-	 * 
-	 * @param reason the reason
-	 * @param throwable the error
-	 */
-   public SharingViolationException(String reason, Throwable throwable)
-   {
-      super(reason, throwable);
-   }
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type 
+     * <code>Throwable</code>.
+     */
+    public SharingViolationException(Throwable cause) {
+	super(cause);
+    }
 
-   /**
-	 * Create an exception with an error.
-	 * 
-	 * @param throwable the error
-	 */
-   public SharingViolationException(Throwable throwable)
-   {
-      super(throwable);
-   }
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type 
+     * <code>Throwable</code>.
+     */
+    public SharingViolationException(String message, Throwable cause) {
+	super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and
+     * error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public SharingViolationException(String message, String errorCode) {
+	super(message, errorCode);
+    }
 }

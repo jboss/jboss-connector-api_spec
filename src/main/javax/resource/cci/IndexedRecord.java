@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,12 +19,18 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.cci;
 
-/**
- * The IndexedRecord interface is used for list oriented representations of the
- * Record elements.
- */
-public interface IndexedRecord extends Record, java.util.List, java.io.Serializable
-{
+/** IndexedRecord represents an ordered collection of record elements 
+ *  based on the <code>java.util.List</code> interface. This interface 
+ *  allows a client to access elements by their integer index (position
+ *  in the list) and search for elements in the List.
+ *
+ *  @author  Rahul Sharma
+ *  @since   0.8
+**/
+public interface IndexedRecord extends Record, java.util.List, 
+                                       java.io.Serializable {
+
 }

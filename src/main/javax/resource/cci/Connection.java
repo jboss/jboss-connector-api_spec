@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,44 +19,101 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.cci;
 
 import javax.resource.ResourceException;
+import javax.resource.NotSupportedException;
 
-/**
- * The Connection provides a handle for use by the application to access an
- * underlying physical connection.
+
+/** A Connection represents an application-level handle that is used 
+ *  by a client to access the underlying physical connection. The actual 
+ *  physical connection associated with a Connection instance is 
+ *  represented by a ManagedConnection instance.
+ *
+ *  <p>A client gets a Connection instance by using the 
+ *  <code>getConnection</code> method on a <code>ConnectionFactory</code> 
+ *  instance. A connection can be associated with zero or more Interaction
+ *  instances.
  * 
- * The client calls the getConnection() method on a ConnectionFactory object to
- * get a Connection.
- */
-public interface Connection
-{
-   /**
-	 * Closes a connection
-	 */
-   public void close() throws ResourceException;
+ *  @author  Rahul Sharma
+ *  @version 0.8
+ *  @see     javax.resource.cci.ConnectionFactory
+ *  @see     javax.resource.cci.Interaction
+ **/
 
-   /**
-	 * Creates a new interaction associated with this connection.
-	 */
-   public Interaction createInteraction() throws ResourceException;
+public interface Connection {
+  
+  /** Creates an Interaction associated with this Connection. An
+   *  Interaction enables an application to execute EIS functions. 
+   *
+   *  @return  Interaction instance  
+   *  @throws  ResourceException     Failed to create an Interaction
+  **/
+  public
+  Interaction createInteraction() 
+			    throws ResourceException;
 
-   /**
-	 * Gets a LocalTransaction object which allows the client to manage local
-	 * transactions for the connection.
-	 */
-   public LocalTransaction getLocalTransaction() throws ResourceException;
+  /** Returns an LocalTransaction instance that enables a component to
+   *  demarcate resource manager local transactions on the Connection.
+   *  If a resource adapter does not allow a component to demarcate 
+   *  local transactions on an Connection using LocalTransaction 
+   *  interface, then the method getLocalTransaction should throw a 
+   *  NotSupportedException.
+   *
+   *  @return   LocalTransaction instance
+   *           
+   *  @throws   ResourceException   Failed to return a LocalTransaction
+   *                                instance because of a resource
+   *                                adapter error
+   *  @throws   NotSupportedException Demarcation of Resource manager 
+   *                                local transactions is not supported
+   *                                on this Connection
+   *  @see javax.resource.cci.LocalTransaction
+  **/
 
-   /**
-	 * Gets meta data for the underlying resource represented by this
-	 * connection.
-	 */
-   public ConnectionMetaData getMetaData() throws ResourceException;
+  public
+  LocalTransaction getLocalTransaction() throws ResourceException;
+  
+  /** Gets the information on the underlying EIS instance represented
+   *  through an active connection.
+   *
+   *  @return   ConnectionMetaData instance representing information 
+   *            about the EIS instance
+   *  @throws   ResourceException  
+   *                        Failed to get information about the 
+   *                        connected EIS instance. Error can be
+   *                        resource adapter-internal, EIS-specific
+   *                        or communication related.
+  **/
+  public
+  ConnectionMetaData getMetaData() throws ResourceException;
 
-   /**
-	 * Gets information on ResultSet functionality supported by the underlying
-	 * resource for the connection.
-	 */
-   public ResultSetInfo getResultSetInfo() throws ResourceException;
+  /** Gets the information on the ResultSet functionality supported by
+   *  a connected EIS instance.
+   *
+   *  @return   ResultSetInfo instance
+   *  @throws   ResourceException     Failed to get ResultSet related 
+   *                                  information
+   *  @throws   NotSupportedException ResultSet functionality is not
+   *                                  supported
+  **/
+  public
+  ResultSetInfo getResultSetInfo() throws ResourceException;
+  
+  
+  /** Initiates close of the connection handle at the application level.
+   *  A client should not use a closed connection to interact with 
+   *  an EIS.
+   *  
+   *  @throws  ResourceException  Exception thrown if close
+   *                              on a connection handle fails.
+   *           <p>Any invalid connection close invocation--example,
+   *              calling close on a connection handle that is 
+   *              already closed--should also throw this exception.
+   *  
+  **/
+  public
+  void close() throws ResourceException;
+
 }

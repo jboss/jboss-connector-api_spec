@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,78 +19,124 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.cci;
 
-/**
- * The ResourceAdaptetMetaData provides information about the resource adapters
- * implementation.
- * 
- * The resource adapter does not require an active connection to exist in order
- * for the client to retrieve and use this data.
- * @version $Revision$
- */
-public interface ResourceAdapterMetaData
-{
-   /**
-	 * Gets the resource adapter's name.
-	 * 
-	 * @return Resource adapter name.
-	 */
-   public String getAdapterName();
+import javax.resource.ResourceException;
 
-   /**
-	 * Gets the resource adapter's short description.
-	 * 
-	 * @return Resource adapter short description.
-	 */
-   public String getAdapterShortDescription();
+/** The interface <code>javax.resource.cci.ResourceAdapterMetaData</code> 
+ *  provides information about capabilities of a resource adapter 
+ *  implementation. Note that this interface does not provide information 
+ *  about an EIS instance that is connected through the resource adapter.
+ *
+ *  <p>A CCI client uses a <code>ConnectionFactory.getMetaData</code> to 
+ *  get metadata information about the resource adapter. The 
+ *  <code>getMetaData</code> method does not require that an active 
+ *  connection to an EIS instance should have been established.
+ *
+ *  <p>The ResourceAdapterMetaData can be extended to provide more 
+ *  information specific to a resource adapter implementation.
+ *  
+ *  @author  Rahul Sharma
+ *  @version 0.8
+ *  @since   0.8
+ *  @see     javax.resource.cci.ConnectionFactory
+**/
 
-   /**
-	 * Gets the resource adapter vendor's name.
-	 * 
-	 * @return Resource adapter vendor name.
-	 */
-   public String getAdapterVendorName();
+public interface ResourceAdapterMetaData {
 
-   /**
-	 * Gets the resource adapter version.
-	 * 
-	 * @return Resource adapter version.
-	 */
-   public String getAdapterVersion();
+  /** Gets the version of the resource adapter.
+   *
+   *  @return   String representing version of the resource adapter
+  **/
+  public 
+  String getAdapterVersion();
+	
+  /** Gets the name of the vendor that has provided the resource 
+   *  adapter.
+   *
+   *  @return   String representing name of the vendor that has 
+   *            provided the resource adapter
+  **/
+  public 
+  String getAdapterVendorName();
+  
+  /** Gets a tool displayable name of the resource adapter.
+   *
+   *  @return   String representing the name of the resource adapter
+  **/
+  public 
+  String getAdapterName();
+	
+  /** Gets a tool displayable short desription of the resource
+   *  adapter.
+   *
+   *  @return   String describing the resource adapter
+  **/
+  public 
+  String getAdapterShortDescription();
 
-   /**
-	 * Gets information on the InteractionSpec types supported by this resource
-	 * adapter.
-	 * 
-	 * @return Array of InteractionSpec names supported.
-	 */
-   public String[] getInteractionSpecsSupported();
+  /** Returns a string representation of the version of the 
+   *  connector architecture specification that is supported by
+   *  the resource adapter.
+   *
+   *  @return   String representing the supported version of 
+   *            the connector architecture
+  **/
+  public 
+  String getSpecVersion();
 
-   /**
-	 * Gets the Connector specification version supported by this adapter.
-	 * 
-	 * @return Connector specification version.
-	 */
-   public String getSpecVersion();
+  /** Returns an array of fully-qualified names of InteractionSpec
+   *  types supported by the CCI implementation for this resource
+   *  adapter. Note that the fully-qualified class name is for 
+   *  the implementation class of an InteractionSpec. This method 
+   *  may be used by tools vendor to find information on the 
+   *  supported InteractionSpec types. The method should return 
+   *  an array of length 0 if the CCI implementation does not 
+   *  define specific InteractionSpec types.
+   *
+   *  @return   Array of fully-qualified class names of
+   *            InteractionSpec classes supported by this
+   *            resource adapter's CCI implementation
+   *  @see      javax.resource.cci.InteractionSpec
+  **/
+  public 
+  String[] getInteractionSpecsSupported();
 
-   /**
-	 * Returns true if the resource adapter Interaction implementation supports
-	 * the method boolean execute( InteractionSpec spec, Record input, Record
-	 * output ), otherwise returns false
-	 */
-   public boolean supportsExecuteWithInputAndOutputRecord();
 
-   /**
-	 * Returns true if the resource adapter Interaction implementation supports
-	 * the method boolean execute( InteractionSpec spec, Record input ),
-	 * otherwise returns false
-	 */
-   public boolean supportsExecuteWithInputRecordOnly();
+  /** Returns true if the implementation class for the Interaction 
+   *  interface implements public boolean execute(InteractionSpec 
+   *  ispec, Record input, Record output) method; otherwise the 
+   *  method returns false.
+   *
+   *  @return   boolean depending on method support
+   *  @see      javax.resource.cci.Interaction
+  **/
+  public 
+  boolean supportsExecuteWithInputAndOutputRecord();
 
-   /**
-	 * Returns true if the resource adapter implementation implements the
-	 * LocalTransaction interface and supports local transaction demarcation.
-	 */
-   public boolean supportsLocalTransactionDemarcation();
+
+  /** Returns true if the implementation class for the Interaction
+   *  interface implements public Record execute(InteractionSpec
+   *  ispec, Record input) method; otherwise the method returns 
+   *  false.
+   *
+   *  @return   boolean depending on method support
+   *  @see      javax.resource.cci.Interaction
+  **/
+  public 
+  boolean supportsExecuteWithInputRecordOnly();
+
+
+  /** Returns true if the resource adapter implements the LocalTransaction
+   *  interface and supports local transaction demarcation on the 
+   *  underlying EIS instance through the LocalTransaction interface.
+   *
+   *  @return  true if resource adapter supports resource manager
+   *           local transaction demarcation through LocalTransaction
+   *           interface; false otherwise
+   *  @see     javax.resource.cci.LocalTransaction
+  **/
+  public
+  boolean supportsLocalTransactionDemarcation();
 }

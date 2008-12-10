@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,46 +19,71 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
 import javax.resource.ResourceException;
 
-/**
- * The LocalTransaction interface is for transactions which are managed locally
- * to the underlying resource and don't need an external transaction manager.
+/** LocalTransaction interface provides support for transactions that
+ *  are managed internal to an EIS resource manager, and do not require
+ *  an external transaction manager.
  * 
- * If a resource implements the LocalTransaction interface then the Application
- * Server can choose to do local transacton optimization.
- */
-public interface LocalTransaction
-{
-   /**
-	 * Begins a local transaction on the userlying resource.
-    * 
-    * @throws ResourceException for a generic error
-    * @throws LocalTransactionException for an error in transaciton management
-    * @throws ResourceAdapterInternalException for an internal error in the resource adapter
-    * @throws EISSystemException for an EIS specific exception 
-	 */
-   public void begin() throws ResourceException;
+ *  <p>A resource adapter implements the javax.resource.spi.LocalTransaction 
+ *  interface to provide support for local transactions that are performed
+ *  on the underlying resource manager.
+ *
+ *  <p>If a resource adapter supports the LocalTransaction interface, then 
+ *  the application server can choose to perform local transaction 
+ *  optimization (uses local transaction instead of a JTA transaction for
+ *  a single resource manager case).
+ *
+ *  @version     0.5
+ *  @author      Rahul Sharma
+ *  @see         javax.resource.spi.ManagedConnection
+ **/
 
-   /**
-	 * Commits a local transaction on the userlying resource.
-    * 
-    * @throws ResourceException for a generic error
-    * @throws LocalTransactionException for an error in transaciton management
-    * @throws ResourceAdapterInternalException for an internal error in the resource adapter
-    * @throws EISSystemException for an EIS specific exception 
-	 */
-   public void commit() throws ResourceException;
 
-   /**
-	 * Rolls back a local transaction on the userlying resource.
-    * 
-    * @throws ResourceException for a generic error
-    * @throws LocalTransactionException for an error in transaciton management
-    * @throws ResourceAdapterInternalException for an internal error in the resource adapter
-    * @throws EISSystemException for an EIS specific exception 
-	 */
-   public void rollback() throws ResourceException;
+
+public interface LocalTransaction {
+  /** Begin a local transaction
+   *  
+   *  @throws  ResourceException   generic exception if operation fails
+   *  @throws  LocalTransactionException  
+   *                               error condition related 
+   *                               to local transaction management
+   *  @throws  ResourceAdapterInternalException
+   *                               error condition internal to resource
+   *                               adapter
+   *  @throws  EISSystemException  EIS instance specific error condition        
+  **/
+  public 
+  void begin() throws ResourceException;
+
+  /** Commit a local transaction 
+   *
+   *  @throws  ResourceException   generic exception if operation fails
+   *  @throws  LocalTransactionException  
+   *                               error condition related 
+   *                               to local transaction management
+   *  @throws  ResourceAdapterInternalException
+   *                               error condition internal to resource
+   *                               adapter
+   *  @throws  EISSystemException  EIS instance specific error condition        
+  **/
+  public
+  void commit() throws ResourceException;
+  
+  /** Rollback a local transaction
+   *  @throws  ResourceException   generic exception if operation fails
+   *  @throws  LocalTransactionException  
+   *                               error condition related 
+   *                               to local transaction management
+   *  @throws  ResourceAdapterInternalException
+   *                               error condition internal to resource
+   *                               adapter
+   *  @throws  EISSystemException  EIS instance specific error condition        
+  **/
+  public
+  void rollback() throws ResourceException;
+
 }

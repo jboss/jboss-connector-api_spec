@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,41 +19,49 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi.work;
 
+import java.lang.Object;
+import java.lang.Runnable;
+import java.lang.Exception;
+import java.lang.Throwable;
 import java.util.EventListener;
 
 /**
- * Listens to events on work
- * @version $Revision$
+ * This models a <code>WorkListener</code> instance which would be notified
+ * by the <code>WorkManager</code> when the various <code>Work</code> 
+ * processing events (work accepted, work rejected, work started, 
+ * work completed) occur.
+ *
+ * The <code>WorkListener</code> instance must not make any thread 
+ * assumptions and must be thread-safe ie., a notification could 
+ * occur from any arbitrary thread. Further, it must not make any
+ * assumptions on the ordering of notifications.
+ *
+ * @version 1.0
+ * @author  Ram Jeyaraman
  */
-public interface WorkListener extends EventListener
-{
-   /**
-    * Invoked when work is accepted
-    *
-    * @param e the event
-    */
-   void workAccepted(WorkEvent e);
+public interface WorkListener extends EventListener {
 
-   /**
-    * Invoked when work is rejected
-    *
-    * @param e the event
-    */
-   void workRejected(WorkEvent e);
+    /** 
+     * Invoked when a <code>Work</code> instance has been accepted.
+     */
+    void workAccepted(WorkEvent e);
 
-   /**
-    * Invoked when work is started
-    *
-    * @param e the event
-    */
-   void workStarted(WorkEvent e);
+    /** 
+     * Invoked when a <code>Work</code> instance has been rejected.
+     */
+    void workRejected(WorkEvent e);
 
-   /**
-    * Invoked when work is completed
-    *
-    * @param e the event
-    */
-   void workCompleted(WorkEvent e);
+    /** 
+     * Invoked when a <code>Work</code> instance has started execution.
+     * This only means that a thread has been allocated.
+     */
+    void workStarted(WorkEvent e);
+
+    /** 
+     * Invoked when a <code>Work</code> instance has completed execution.
+     */
+    void workCompleted(WorkEvent e);
 }

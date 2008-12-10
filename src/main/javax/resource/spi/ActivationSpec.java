@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,20 +19,37 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
 /**
- * A marker interface holding the configuration of a message endpoint.
+ * This interface serves as a marker. An instance of an ActivationSpec must be a
+ * JavaBean and must be serializable. This holds the activation configuration
+ * information for a message endpoint.
  * 
- * An instance must be a javabean and be serializable.
+ * @version 1.0
+ * @author Ram Jeyaraman
  */
-public interface ActivationSpec extends ResourceAdapterAssociation
-{
-   /**
-	 * Optional method that can be used to check configuration by a deployment
-	 * tool.
+public interface ActivationSpec extends ResourceAdapterAssociation {
+
+	/**
+	 * This method may be called by a deployment tool to validate the overall
+	 * activation configuration information provided by the endpoint deployer.
+	 * This helps to catch activation configuration errors earlier on without
+	 * having to wait until endpoint activation time for configuration
+	 * validation. The implementation of this self-validation check behavior is
+	 * optional.
 	 * 
-	 * @throws InvalidPropertyException for invalid configuration
+	 * @throws <code>InvalidPropertyException</code> indicates invalid
+	 *         configuration property settings.
+	 *         
+	 * @deprecated As of Java EE Connectors 1.6 specification, resource adapter
+	 *             implementations are recommended to use the annotations or the
+	 *             XML validation deployment descriptor facilities defined by
+	 *             the Bean Validation specification to express their validation
+	 *             requirements of its configuration properties to the
+	 *             application server.
 	 */
-   void validate() throws InvalidPropertyException;
+	void validate() throws InvalidPropertyException;
+	
 }

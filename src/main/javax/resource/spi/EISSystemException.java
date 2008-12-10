@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,59 +19,65 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
-import javax.resource.ResourceException;
-
 /**
- * A EISSystemException is used to indicate EIS specific error conditios.
- * Common error conditions are failure of the EIS, communication failure or an
- * EIS specific failure during creation of a new connection.
+ * An <code>EISSystemException</code> is used to indicate any EIS
+ * specific system-level 
+ * error conditions. The common error conditions are: failure or inactivity of
+ * an EIS instance, communication failure and EIS specific error in the 
+ * creation of a new physical connection. 
+ * 
+ * @version 1.0
+ * @author Rahul Sharma
+ * @author Ram Jeyaraman
  */
-public class EISSystemException extends ResourceException
-{
-   /**
-	 * Create an exception.
-	 */
-   public EISSystemException()
-   {
-      super();
-   }
 
-   /**
-	 * Create an exception with a reason.
-	 */
-   public EISSystemException(String reason)
-   {
-      super(reason);
-   }
+public class EISSystemException extends javax.resource.ResourceException {
 
-   /**
-	 * Create an exception with a reason and an errorCode.
-	 */
-   public EISSystemException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public EISSystemException() { super(); }
 
-   /**
-	 * Create an exception with a reason and cause.
-	 * 
-	 * @param reason the reason
-	 * @param cause the cause
-	 */
-   public EISSystemException(String reason, Throwable cause)
-   {
-      super(reason, cause);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public EISSystemException(String message) {
+	super(message);
+    }
 
-   /**
-	 * Create an exception with a cause.
-	 * 
-	 * @param cause the cause
-	 */
-   public EISSystemException(Throwable cause)
-   {
-      super(cause);
-   }
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public EISSystemException(Throwable cause) {
+	super(cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public EISSystemException(String message, Throwable cause) {
+	super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and
+     * an error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public EISSystemException(String message, String errorCode) {
+	super(message, errorCode);
+    }
 }

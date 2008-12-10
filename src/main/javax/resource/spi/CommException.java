@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,59 +19,63 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
-import javax.resource.ResourceException;
-
 /**
- * A CommException indicates error conditions related to failed or interrupted
- * communication with an underlying resource. examples include: communication
- * protocol error or connection loss due to server failure.
+ * This indicates errors related to failed or interrupted 
+ * communication with an EIS instance. Examples of common error conditions
+ * represented by this exception type are communication protocol error and
+ * invalidated connection due to server failure. 
+ *
+ * @version 1.0
+ * @author Rahul Sharma
+ * @author Ram Jeyaraman
  */
-public class CommException extends ResourceException
-{
-   /**
-	 * Create an exception.
-	 */
-   public CommException()
-   {
-      super();
-   }
-   
-   /**
-	 * Create an exception with a reason.
-	 */
-   public CommException(String reason)
-   {
-      super(reason);
-   }
+public class CommException extends javax.resource.ResourceException {
 
-   /**
-	 * Create an exception with a reason and an errorCode.
-	 */
-   public CommException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public CommException() { super(); }
 
-   /**
-    * Create an exception with a reason and cause.
-    * 
-    * @param reason the reason
-    * @param cause the cause
-    */
-   public CommException(String reason, Throwable cause)
-   {
-      super(reason, cause);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public CommException(String message) {
+	super(message);
+    }
 
-   /**
-    * Create an exception with a cause.
-    * 
-    * @param cause the cause
-    */
-   public CommException(Throwable cause)
-   {
-      super(cause);
-   }
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public CommException(Throwable cause) {
+	super(cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public CommException(String message, Throwable cause) {
+	super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and
+     * an error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public CommException(String message, String errorCode) {
+	super(message, errorCode);
+    }
 }

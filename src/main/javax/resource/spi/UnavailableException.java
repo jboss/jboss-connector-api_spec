@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,62 +19,61 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
-import javax.resource.ResourceException;
-
 /**
- * Thrown when a service is unavailable
+ * This is thrown to indicate that a service is unavailable.
+ *
+ * @version 1.0
+ * @author  Ram Jeyaraman
  */
-public class UnavailableException extends ResourceException
-{
-   /**
-	 * Create an unavailable exception.
-	 */
-   public UnavailableException()
-   {
-      super();
-   }
+public class UnavailableException extends javax.resource.ResourceException {
 
-   /**
-	 * Create an unavailable exception with a reason.
-	 * 
-	 * @param reason the reason
-	 */
-   public UnavailableException(String reason)
-   {
-      super(reason);
-   }
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public UnavailableException() { super(); }
 
-   /**
-	 * Create an unavailable exception with a reason and an errorCode.
-	 * 
-	 * @param reason the reason
-	 * @param errorCode the error code
-	 */
-   public UnavailableException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public UnavailableException(String message) {
+	super(message);
+    }
 
-   /**
-	 * Create an unavailable exception with a reason and an error.
-	 * 
-	 * @param reason the reason
-	 * @param throwable the error
-	 */
-   public UnavailableException(String reason, Throwable throwable)
-   {
-      super(reason, throwable);
-   }
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type 
+     * <code>Throwable</code>.
+     */
+    public UnavailableException(Throwable cause) {
+	super(cause);
+    }
 
-   /**
-	 * Create an unavailable exception with an error.
-	 * 
-	 * @param throwable the error
-	 */
-   public UnavailableException(Throwable throwable)
-   {
-      super(throwable);
-   }
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type 
+     * <code>Throwable</code>.
+     */
+    public UnavailableException(String message, Throwable cause) {
+	super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and
+     * an error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public UnavailableException(String message, String errorCode) {
+	super(message, errorCode);
+    }
 }

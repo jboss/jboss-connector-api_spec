@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,149 +19,147 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
+
 package javax.resource;
 
-import org.jboss.util.id.SerialVersion;
-
 /**
- * This is the root exception for the exception hierarchy defined for the
- * connector architecture.
+ * This is the root interface of the exception hierarchy defined
+ * for the Connector architecture.
  * 
- * A ResourceException contains three items, the first two of which are set
- * from the constructor. The first is a standard message string which is
- * accessed via the getMessage() method. The second is an errorCode which is
- * accessed via the getErrorCode() method. The third is a linked exception
- * which provides more information from a lower level in the resource manager.
- * Linked exceptions are accessed via get/setLinkedException.
+ * The ResourceException provides the following information:
+ * <UL>
+ *   <LI> A resource adapter vendor specific string describing the error.
+ *        This string is a standard Java exception message and is available
+ *        through getMessage() method.
+ *   <LI> resource adapter vendor specific error code.
+ *   <LI> reference to another exception. Often a resource exception
+ *        will be result of a lower level problem. If appropriate, this
+ *        lower level exception can be linked to the ResourceException.
+ *        Note, this has been deprecated in favor of J2SE release 1.4 exception
+ *        chaining facility.
+ * </UL>
+ *
+ * @version 1.0
+ * @author Rahul Sharma
+ * @author Ram Jeyaraman
  */
-public class ResourceException extends Exception
-{
-   /** @since 4.0.2 */
-   static final long serialVersionUID;
-   static
-   {
-      if (SerialVersion.version == SerialVersion.LEGACY)
-         serialVersionUID = 4770679801401540475L;
-      else
-         serialVersionUID = 547071213627824490L;
-   }
-   
-   /** The error code */
-   private String errorCode;
 
-   /** The linked exception */
-   private Exception linkedException;
+public class ResourceException extends java.lang.Exception {
 
-   /**
-	 * Create an exception with a null reason.
-	 */
-   public ResourceException()
-   {
-      super();
-   }
+    /** Vendor specific error code */
+    private String errorCode;
 
-   /**
-	 * Create an exception with a reason.
-	 * 
-	 * @param reason the reason
-	 */
-   public ResourceException(String reason)
-   {
-      super(reason);
-   }
+    /** reference to another exception */
+    private Exception linkedException;
 
-   /**
-	 * Create an exception with a reason and an errorCode.
-	 * 
-	 * @param reason the reason
-	 * @param errorCode the error code
-	 */
-   public ResourceException(String reason, String errorCode)
-   {
-      super(reason);
-      this.errorCode = errorCode;
-   }
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public ResourceException() { super(); }
 
-   /**
-	 * Create an exception with a reason and an errorCode.
-	 * 
-	 * @param reason the reason
-	 * @param throwable the linked error
-	 */
-   public ResourceException(String reason, Throwable throwable)
-   {
-      super(reason, throwable);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public ResourceException(String message) {
+	super(message);
+    }
 
-   /**
-	 * Create an exception with a reason and an errorCode.
-	 * 
-	 * @param throwable the linked error
-	 */
-   public ResourceException(Throwable throwable)
-   {
-      super(throwable);
-   }
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public ResourceException(Throwable cause) {
+	super(cause);
+    }
 
-   /**
-	 * Get the error code.
-	 * 
-	 * @return the error code
-	 */
-   public String getErrorCode()
-   {
-      return errorCode;
-   }
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public ResourceException(String message, Throwable cause) {
+	super(message, cause);
+    }
 
-   /**
-	 * Get any linked exception.
-	 * 
-	 * @return the linked exception
-	 */
-   public Exception getLinkedException()
-   {
-      return linkedException;
-   }
+    /**
+     * Create a new throwable with the specified message and error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public ResourceException(String message, String errorCode) {
+	super(message);
+	this.errorCode = errorCode;
+    }    
 
-   /**
-    * Get the message composed of the reason and error code.
-    * 
-    * @return message composed of the reason and error code.
-    */
-   public String getMessage()
-   {
-      String msg = super.getMessage();
-      String ec = getErrorCode();
-      if ((msg == null) && (ec == null))
-      {
-         return null;
-      }
-      if ((msg != null) && (ec != null))
-      {
-         return (msg + ", error code: " + ec);
-      }
-      return ((msg != null) ? msg : ("error code: " + ec));
-   }
+    /**
+     * Set the error code.
+     *
+     * @param errorCode the error code.
+     */
+    public void setErrorCode(String errorCode) {
+	this.errorCode = errorCode;
+    }
 
-   /**
-	 * Set the error code.
-	 * 
-	 * @param errorCode code the error code
-	 */
-   public void setErrorCode(String errorCode)
-   {
-      this.errorCode = errorCode;
-   }
+    /**
+     * Get the error code.
+     *
+     * @return the error code.
+     */
+    public String getErrorCode() {
+	return this.errorCode;
+    }
 
-   /**
-	 * Set a linked exception.
-	 * 
-	 * @deprecated use initCause
-	 * @param linkedException the linked exception
-	 */
-   public void setLinkedException(Exception linkedException)
-   {
-      this.linkedException = linkedException;
-      initCause(linkedException);
-   }
+    /**
+     * Get the exception linked to this ResourceException
+     *
+     * @return         linked Exception, null if none
+     *
+     * @deprecated J2SE release 1.4 supports a chained exception facility 
+     * that allows any throwable to know about another throwable, if any,
+     * that caused it to get thrown. Refer to <code>getCause</code> and 
+     * <code>initCause</code> methods of the 
+     * <code>java.lang.Throwable</code> class..
+     */
+    public Exception getLinkedException() {
+	return (linkedException);
+    }
+
+    /**
+     * Add a linked Exception to this ResourceException.
+     *
+     * @param ex       linked Exception
+     *
+     * @deprecated J2SE release 1.4 supports a chained exception facility 
+     * that allows any throwable to know about another throwable, if any,
+     * that caused it to get thrown. Refer to <code>getCause</code> and 
+     * <code>initCause</code> methods of the 
+     * <code>java.lang.Throwable</code> class.
+     */
+    public void setLinkedException(Exception ex) {
+	linkedException = ex;
+    }
+
+    /**
+     * Returns a detailed message string describing this exception.
+     *
+     * @return a detailed message string.
+     */
+    public String getMessage() {
+	String msg = super.getMessage();
+	String ec = getErrorCode();
+	if ((msg == null) && (ec == null)) {
+	    return null;
+	}
+	if ((msg != null) && (ec != null)) {
+	    return (msg + ", error code: " + ec);
+	}
+	return ((msg != null) ? msg : ("error code: " + ec));
+    }
 }

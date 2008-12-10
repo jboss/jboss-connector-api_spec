@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,19 +19,29 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.cci;
 
-/**
- * An ConnectionSpec holds connection specific properties for use by a
- * ConnectionFactory in creating a Connection.n Connection in order to execute
- * a function on the underlying resource.
- * 
- * The ConnectionSpec interface should be implemented as a JavaBean in order
- * for ease of tool support.
- * 
- * A standard set of properties are defined in the specification. In addition
- * an implementation may implement additional properties.
- */
-public interface ConnectionSpec
-{
+/** ConnectionSpec is used by an application component to pass 
+ *  connection request-specific properties to the ConnectionFactory.
+ *  getConnection method.
+ *
+ *  <p>It is recommended that the ConnectionSpec interface be 
+ *  implemented as a JavaBean to support tools. The properties 
+ *  on the ConnectionSpec implementation class must be defined 
+ *  through the getter and setter methods pattern. 
+ *  
+ *  <p>The CCI specification defines a set of standard properties 
+ *  for an ConnectionSpec. The properties are defined either on
+ *  a derived interface or an implementation class of an empty
+ *  ConnectionSpec interface. In addition, a resource adapter may 
+ *  define additional properties specific to its underlying EIS.
+ *  
+ *  @author  Rahul Sharma
+ *  @version 1.0 Public Draft 1
+ *  @see     javax.resource.cci.ConnectionFactory
+ **/
+
+public interface ConnectionSpec {
+
 }

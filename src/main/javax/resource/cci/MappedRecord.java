@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,15 +19,18 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.cci;
 
-import java.io.Serializable;
-import java.util.Map;
+/** The interface <code>javax.resource.cci.MappedRecord</code> is 
+ *  used for key-value map based representation of record elements. 
+ *  The MappedRecord interface extends both <code>Record</code> and 
+ *  <code>java.util.Map</code>interfaces. 
+ *
+ *  @author  Rahul Sharma
+ *  @version   0.8
+**/
+public interface MappedRecord extends Record, java.util.Map,
+                                       java.io.Serializable {
 
-/**
- * The MappedRecord interface is used for key-value map based representation of
- * the Record elements.
- */
-public interface MappedRecord extends Record, Map, Serializable
-{
 }

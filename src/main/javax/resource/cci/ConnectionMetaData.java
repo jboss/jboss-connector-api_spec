@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,36 +19,53 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.cci;
+
 
 import javax.resource.ResourceException;
 
-/**
- * The ConnectionMetaData provides information about the underlying resources
- * for the connection.
- */
-public interface ConnectionMetaData
-{
-   /**
-	 * Gets the product name of the underlying resource for the connection.
-	 * 
-	 * @return Product name of underlying resource.
-	 */
-   public String getEISProductName() throws ResourceException;
+/** The interface <code>ConnectionMetaData</code> provides information 
+ *  about an EIS instance connected through a Connection instance. A
+ *  component calls the method <code>Connection.getMetaData</code> to
+ *  get a <code>ConnectionMetaData</code> instance. 
+ *
+ *  @version     0.8
+ *  @author      Rahul Sharma
+ *  @see         javax.resource.cci.Connection
+ *  @see         javax.resource.cci.ResultSetInfo
+**/
 
-   /**
-	 * Gets the product version of the underlying resource for the connection.
-	 * 
-	 * @return Product version name of underlying resource.
-	 */
-   public String getEISProductVersion() throws ResourceException;
+public interface ConnectionMetaData {
 
-   /**
-	 * Gets the user name for the connection to the underlying resource as known
-	 * to the underlying resource. This name corresponds to the principal under
-	 * whose context the connection was first made.
-	 * 
-	 * @return Product name of underlying resource.
-	 */
-   public String getUserName() throws ResourceException;
+  /** Returns product name of the underlying EIS instance connected
+   *  through the Connection that produced this metadata.
+   *
+   *  @return   Product name of the EIS instance
+   *  @throws   ResourceException  Failed to get the information for
+   *                               the EIS instance
+  **/
+  public
+  String getEISProductName() throws ResourceException;
+
+  /** Returns product version of the underlying EIS instance.
+   *
+   *  @return   Product version of an EIS instance. 
+   *  @throws   ResourceException  Failed to get the information for
+   *                               the EIS instance
+  **/
+  public
+  String getEISProductVersion() throws ResourceException;
+
+  /** Returns the user name for an active connection as known to 
+   *  the underlying EIS instance. The name corresponds the resource
+   *  principal under whose security context a connection to the
+   *  EIS instance has been established.
+   *
+   *  @return   String representing the user name
+   *  @throws   ResourceException  Failed to get the information for
+   *                               the EIS instance           
+  **/
+  public
+  String getUserName() throws ResourceException;
 }

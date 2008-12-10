@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,23 +19,43 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
 import java.util.Set;
-
 import javax.resource.ResourceException;
 
-/**
- * A mixin interface for connection factories that can validate their managed connections
- */
-public interface ValidatingManagedConnectionFactory
-{
-   /**
-    * Returns the invalid connections in a set
-    *
-    * @param connectionSet the set of connections to validate
-    * @return the set of invalid connections
-    * @throws ResourceException for a generic error
-    */
-   Set getInvalidConnections(Set connectionSet) throws ResourceException;
+/** 
+ * This interface is implemented by a <code>ManagedConnectionFactory</code>
+ * instance that supports the ability to validate 
+ * <code>ManagedConnection</code> objects.
+ *
+ * <p>This may be used by the application server to prune invalid 
+ * <code>ManagedConnection</code> objects from its connection pool.
+ *
+ * <p>The application server may use this functionality to test the
+ * validity of a <code>ManagedConnection</code> by passing in a 
+ * <code>Set</code> of size one( with the <code>ManagedConnection</code>
+ * that has to be tested for validity as the only member of the 
+ * <code>Set</code>.
+ * 
+ *
+ *  @author  Ram Jeyaraman
+ *  @version 1.0
+ */    
+public interface ValidatingManagedConnectionFactory {
+
+    /**
+     * This method returns a set of invalid <code>ManagedConnection</code> 
+     * objects chosen from a specified set of <code>ManagedConnection</code>
+     * objects.
+     *
+     * @param connectionSet a set of <code>ManagedConnection</code> objects
+     * that need to be validated.
+     *
+     * @return a set of invalid <code>ManagedConnection</code> objects.
+     *
+     * @throws ResourceException generic exception.
+     */
+    Set getInvalidConnections(Set connectionSet) throws ResourceException;
 }

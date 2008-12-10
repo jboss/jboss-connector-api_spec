@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,73 +19,89 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi.work;
 
-import javax.resource.ResourceException;
-
 /**
- * Thrown when there is an error handling work.
+ * A common base class for all <code>Work</code> processing related exceptions.
+ *
+ * @version 1.0
+ * @author  Ram Jeyaraman
  */
-public class WorkException extends ResourceException
-{
-   /** An internal error */
-   public static final String INTERNAL = "-1";
-   /** An undefined error */
-   public static final String UNDEFINED = "0";
-   /** Expiration before work was started */
-   public static final String START_TIMED_OUT = "1";
-   /** Not allowed to do concurrent work on a transaction */
-   public static final String TX_CONCURRENT_WORK_DISALLOWED = "2";
-   /** Could not recreate the transaction context */
-   public static final String TX_RECREATE_FAILED = "3";
+public class WorkException extends javax.resource.ResourceException {
 
-   /**
-    * Create an exception.
-    */
-   public WorkException()
-   {
-      super();
-   }
 
-   /**
-    * Create an exception with a reason.
-    *
-    * @param reason the reason
-    */
-   public WorkException(String reason)
-   {
-      super(reason);
-   }
+    /**
+     * Indicates an internal error condition.
+     */
+    public static final String INTERNAL = "-1";
 
-   /**
-    * Create an exception with a reason and an errorCode.
-    *
-    * @param reason the reason
-    * @param errorCode the error code
-    */
-   public WorkException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+    /**
+     * Undefined error code.
+     */
+    public static final String UNDEFINED = "0";
 
-   /**
-    * Create an exception with a reason and an error.
-    *
-    * @param reason the reason
-    * @param throwable the error
-    */
-   public WorkException(String reason, Throwable throwable)
-   {
-      super(reason, throwable);
-   }
+    /**
+     * Indicates start timeout expiration.
+     */
+    public static final String START_TIMED_OUT = "1";
 
-   /**
-    * Create an exception with an error.
-    *
-    * @param throwable the error
-    */
-   public WorkException(Throwable throwable)
-   {
-      super(throwable);
-   }
+    /**
+     * Indicates that concurrent work within a transaction is
+     * disallowed. That is, there is already another <code>Work</code>
+     * instance associated with the specified transaction context.
+     */
+    public static final String TX_CONCURRENT_WORK_DISALLOWED = "2";
+
+    /**
+     * Indicates a failure in recreating the specified transaction context.
+     */
+    public static final String TX_RECREATE_FAILED = "3";
+
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public WorkException() { super(); }
+
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public WorkException(String message) {
+        super(message);
+    }
+
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type
+     * <code>Throwable</code>.
+     */
+    public WorkException(Throwable cause) {
+        super(cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type
+     * <code>Throwable</code>.
+     */
+    public WorkException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and
+     * an error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public WorkException(String message, String errorCode) {
+        super(message, errorCode);
+    }
 }

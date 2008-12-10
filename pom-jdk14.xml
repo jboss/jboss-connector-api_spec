@@ -19,11 +19,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jboss.javaee</groupId>
   <artifactId>jboss-jca-api-jdk14</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.6-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>JBoss J2EE Connector Architecture 1.5 API</name>
+  <name>JBoss J2EE Connector Architecture 1.6 API</name>
   <url>http://www.jboss.org</url>
-  <description>The J2EE Connector Architecture 1.5 API classes</description>
+  <description>The J2EE Connector Architecture 1.6 API classes</description>
   <build>
     <outputDirectory>${outputDirectory}</outputDirectory>
     <testOutputDirectory>${testOutputDirectory}</testOutputDirectory>
@@ -88,6 +88,11 @@
       <artifactId>jboss-common-core-jdk14</artifactId>
       <version>2.2.1-SNAPSHOT</version>
     </dependency>  
+    <dependency>
+      <groupId>org.jboss.javaee</groupId>
+      <artifactId>jboss-transaction-api</artifactId>
+      <version>1.0.1.GA</version>
+    </dependency> 
   </dependencies>
   
   <properties>

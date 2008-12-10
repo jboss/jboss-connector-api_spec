@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,57 +19,64 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
-import javax.resource.ResourceException;
-
 /**
- * A IllegalStateException is thrown when a method has been invoked on an
- * object which is in the wrong state to execute the method.
+ * An <code>IllegalStateException</code> 
+ * is thrown from a method if the callee (resource
+ * adapter or application server for system contracts) is in an illegal or
+ * inappropriate state for the method invocation.
+ *
+ * @version 1.0
+ * @author Rahul Sharma
+ * @author Ram Jeyaraman
  */
-public class IllegalStateException extends ResourceException
-{
-   /**
-	 * Create an exception.
-	 */
-   public IllegalStateException()
-   {
-      super();
-   }
-   /**
-	 * Create an exception with a reason.
-	 */
-   public IllegalStateException(String reason)
-   {
-      super(reason);
-   }
 
-   /**
-	 * Create an exception with a reason and an errorCode.
-	 */
-   public IllegalStateException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+public class IllegalStateException extends javax.resource.ResourceException {
 
-   /**
-    * Create an exception with a reason and cause.
-    * 
-    * @param reason the reason
-    * @param cause the cause
-    */
-   public IllegalStateException(String reason, Throwable cause)
-   {
-      super(reason, cause);
-   }
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public IllegalStateException() { super(); }
 
-   /**
-    * Create an exception with a cause.
-    * 
-    * @param cause the cause
-    */
-   public IllegalStateException(Throwable cause)
-   {
-      super(cause);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public IllegalStateException(String message) {
+	super(message);
+    }
+
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public IllegalStateException(Throwable cause) {
+	super(cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public IllegalStateException(String message, Throwable cause) {
+	super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and
+     * an error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public IllegalStateException(String message, String errorCode) {
+	super(message, errorCode);
+    }
 }

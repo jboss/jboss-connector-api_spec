@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,57 +19,68 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
-import javax.resource.ResourceException;
-
 /**
- * A ResourceAllocationException can be thrown to indicate a failure to
- * allocate system resources such as threads or physical connections.
+ * A <code>ResourceAllocationException</code> can be thrown by an 
+ * application server or
+ * resource adapter to indicate any failure to allocate system resources 
+ * (example: threads, physical connections). An example is error condition 
+ * when an upper bound is reached on the maximum number of physical 
+ * connections that can be managed by an application server specific 
+ * connection pool.
+ *
+ * @version 1.0
+ * @author Rahul Sharma
+ * @author Ram Jeyaraman
  */
-public class ResourceAllocationException extends ResourceException
-{
-   /**
-	 * Create an exception.
-	 */
-   public ResourceAllocationException()
-   {
-      super();
-   }
-   /**
-	 * Create an exception with a reason.
-	 */
-   public ResourceAllocationException(String reason)
-   {
-      super(reason);
-   }
 
-   /**
-	 * Create an exception with a reason and an errorCode.
-	 */
-   public ResourceAllocationException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+public class ResourceAllocationException 
+        extends javax.resource.ResourceException {
 
-   /**
-	 * Create an exception with a reason and cause.
-	 * 
-	 * @param reason the reason
-	 * @param cause the cause
-	 */
-   public ResourceAllocationException(String reason, Throwable cause)
-   {
-      super(reason, cause);
-   }
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public ResourceAllocationException() { super(); }
 
-   /**
-	 * Create an exception with a cause.
-	 * 
-	 * @param cause the cause
-	 */
-   public ResourceAllocationException(Throwable cause)
-   {
-      super(cause);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public ResourceAllocationException(String message) {
+	super(message);
+    }
+
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public ResourceAllocationException(Throwable cause) {
+	super(cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public ResourceAllocationException(String message, Throwable cause) {
+	super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and
+     * an error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public ResourceAllocationException(String message, String errorCode) {
+	super(message, errorCode);
+    }
 }

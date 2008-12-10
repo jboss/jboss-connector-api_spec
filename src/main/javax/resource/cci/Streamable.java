@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,27 +19,49 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.cci;
 
+
 import java.io.InputStream;
-import java.io.IOException;
 import java.io.OutputStream;
+import java.io.IOException;
 
-/**
- * The Streamable interface allows a resource adapter to interact with a Record
- * as a stream of bytes.
- * 
- * The Streamable interface is used by a resource adapter.
- */
-public interface Streamable
-{
-   /**
-	 * Read the Streamable from the specified InputStream.
-	 */
-   public void read(InputStream istream) throws IOException;
+/** Streamable interface enables a resource adapter to extract data from
+ *  an input Record or set data into an output Record as a stream of 
+ *  bytes. 
+ *
+ *  <p>The Streamable interface provides a resource adapter's view
+ *  of the data that has been set in a Record instance by a component.
+ *  
+ *  <p>The Streamable interface is not directly used by a component. It
+ *  is used by a resource adapter implementation. A component uses Record 
+ *  or any derived interfaces to manage records.
+ *
+ *  @author Rahul Sharma
+ *  @since  0.8
+ *  @see    javax.resource.cci.Record
+**/
 
-   /**
-	 * Write the Streamable to the specified OutputStream.
-	 */
-   public void write(OutputStream ostream) throws IOException;
+public interface Streamable {
+
+  /** Read data from an InputStream and initialize fields of a 
+   *  Streamable object. 
+   *
+   *  @param  istream   InputStream that represents a resource
+   *                    adapter specific internal representation
+   *                    of fields of a Streamable object
+  **/
+  public
+  void read(InputStream istream) throws IOException;
+  
+
+  /** Write fields of a Streamable object to an OutputStream
+   *  @param  ostream   OutputStream that holds value of a
+   *                    Streamable object
+  **/
+  public
+  void write(OutputStream ostream) throws IOException;
+
 }
+

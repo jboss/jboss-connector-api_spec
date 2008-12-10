@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,33 +19,60 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi.endpoint;
 
-import java.lang.reflect.Method;
-
-import javax.resource.spi.UnavailableException;
+import java.lang.NoSuchMethodException;
 import javax.transaction.xa.XAResource;
+import javax.resource.spi.UnavailableException;
 
 /**
- * A factory for message end points
+ * This serves as a factory for creating message endpoints.
+ *
+ * @version 1.0
+ * @author  Ram Jeyaraman
  */
-public interface MessageEndpointFactory
-{
-   /**
-    * Creates a message endpoint
-    *
-    * @param resource the xa resource
-    * @return the message endpoint
-    * @throws UnavailableException a transient failure in the endpoint
-    */
-   MessageEndpoint createEndpoint(XAResource resource) throws UnavailableException;
+public interface MessageEndpointFactory {
 
-   /**
-    * Tests whether the delivery is transactional for the given method
-    *
-    * @param method the method to test
-    * @return true for transacted delivery, false otherwise
-    * @throws NoSuchMethodException if there is no such method for the endpoint
-    */
-   boolean isDeliveryTransacted(Method method) throws NoSuchMethodException;
+    /**
+     * This is used to create a message endpoint. The message endpoint is
+     * expected to implement the correct message listener type.
+     *
+     * @param xaResource an optional <code>XAResource</code> 
+     * instance used to get transaction notifications when the message delivery
+     * is transacted.
+     *
+     * @return a message endpoint instance.
+     *
+     * @throws UnavailableException indicates a transient failure
+     * in creating a message endpoint. Subsequent attempts to create a message
+     * endpoint might succeed.
+     */
+    MessageEndpoint createEndpoint(XAResource xaResource)
+	throws UnavailableException;
+
+    /**
+     * This is used to find out whether message deliveries to a target method
+     * on a message listener interface that is implemented by a message 
+     * endpoint will be transacted or not. 
+     *
+     * The message endpoint may indicate its transacted delivery preferences 
+     * (at a per method level) through its deployment descriptor. The message 
+     * delivery preferences must not change during the lifetime of a 
+     * message endpoint. 
+     * 
+     * @param method description of a target method. This information about
+     * the intended target method allows an application server to find out 
+     * whether the target method call will be transacted or not.
+     *
+     * @throws NoSuchMethodException indicates that the specified method
+     * does not exist on the target endpoint.
+     *
+     * @return true, if message endpoint requires transacted message delivery.
+     */
+    boolean isDeliveryTransacted(java.lang.reflect.Method method)
+	throws NoSuchMethodException;
 }
+
+
+

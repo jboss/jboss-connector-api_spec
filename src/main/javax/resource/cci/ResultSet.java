@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,14 +19,20 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.cci;
 
-/**
- * A ResultSet represents tabular data returned from the underlying resource by
- * the execution of an interaction. The cci.ResultSet is based on the JDBC
- * result set.
- * @version $Revision$
- */
-public interface ResultSet extends Record, java.sql.ResultSet
-{
+/** A ResultSet represents tabular data that is retrieved from an EIS
+ *  instance by the execution of an Interaction.. The CCI ResultSet is 
+ *  based on the JDBC ResultSet.   
+ *
+ *  <p>Refer the CCI specification in Connectors 1.0 for detailed
+ *  requirements on the implementation of a CCI ResultSet.
+ *
+ *  @author  Rahul Sharma
+ *  @since   0.8
+ *  @see     java.sql.ResultSet
+**/
+public interface ResultSet extends Record, java.sql.ResultSet {
+
 }

@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,26 +19,42 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi.work;
 
+import java.lang.Object;
+import java.lang.Runnable;
+import java.lang.Exception;
+import java.lang.Throwable;
+
 /**
- * A helper for work listener implementations
+ * This class is provided as a convenience for easily creating 
+ * <code>WorkListener</code> instances by extending this class
+ * and overriding only those methods of interest.
+ *
+ * @version 1.0
+ * @author  Ram Jeyaraman
  */
-public class WorkAdapter implements WorkListener
-{
-   public void workAccepted(WorkEvent e)
-   {
-   }
+public class WorkAdapter implements WorkListener {
 
-   public void workCompleted(WorkEvent e)
-   {
-   }
+    /** 
+     * Invoked when a <code>Work</code> instance has been accepted.
+     */
+    public void workAccepted(WorkEvent e) {}
 
-   public void workRejected(WorkEvent e)
-   {
-   }
+    /** 
+     * Invoked when a <code>Work</code> instance has been rejected.
+     */
+    public void workRejected(WorkEvent e) {}
 
-   public void workStarted(WorkEvent e)
-   {
-   }
+    /** 
+     * Invoked when a <code>Work</code> instance has started execution.
+     * This only means that a thread has been allocated.
+     */
+    public void workStarted(WorkEvent e) {}
+
+    /** 
+     * Invoked when a <code>Work</code> instance has completed execution.
+     */
+    public void workCompleted(WorkEvent e) {}
 }

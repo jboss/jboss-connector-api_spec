@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,24 +19,41 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
 import javax.resource.ResourceException;
 
 /**
- * An optioanl mixin interface for connection managers that support the lazy connection
- * enlistment optimization.
+ * This is a mix-in interface that may be optionally implemented by a 
+ * <code>ConnectionManager</code> implementation. An implementation of
+ * this interface must support the lazy transaction enlistment optimization.
+ *
+ * @version 1.0
+ * @author  Ram Jeyaraman
  */
-public interface LazyEnlistableConnectionManager
-{
-   /**
-    * Invoked by a resource adapter to lazily enlist a connection handle with the managed connection
-    *
-    * @param mc the managed connection
-    * @throws ResourceException for an generic error
-    * @throws ApplicationServerInternalException for problems in the application server
-    * @throws ResourceAllocationException for problems allocating resources
-    * @throws ResourceAdapterInternalException for errors from the resource adapter 
-    */
-   void lazyEnlist(ManagedConnection mc) throws ResourceException;
+public interface LazyEnlistableConnectionManager {
+
+    /**
+     * This method is called by a resource adapter (that is capable of
+     * lazy transaction enlistment optimization) in order to lazily enlist
+     * a connection object with a XA transaction. 
+     *
+     * @param mc The <code>ManagedConnection</code> instance that needs to be
+     * lazily associated.
+     *
+     * @throws  ResourceException Generic exception.
+     *
+     * @throws  ApplicationServerInternalException 
+     *                            Application server specific exception.
+     *
+     * @throws  ResourceAllocationException
+     *                            Failed to allocate system resources for
+     *                            connection request.
+     *
+     * @throws  ResourceAdapterInternalException
+     *                            Resource adapter related error condition.
+     */
+    void lazyEnlist(ManagedConnection mc) throws ResourceException;
 }
+

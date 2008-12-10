@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,60 +19,72 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
-import javax.resource.ResourceException;
-
-/**
- * A ResourceAdapterInternalException indicates any system level error
- * conditions related to a resource adapter. Examples are invalid
- * configuration, failure to create a connection to an underlying resource,
- * other error condition internal to the resource adapter.
+/** 
+ * A <code>ResourceAdapterInternalException</code> indicates any 
+ * system-level error conditions related to a resource adapter. 
+ * The common conditions indicated by this exception type are:
+ *  <UL>
+ *  <LI>Invalid configuration for creation of a new physical connection. An
+        example is invalid server name for a target EIS instance.
+ *  <LI>Failure to create a physical connection to a EIS instance due to 
+ *      communication protocol error or any resource adapter implementation 
+ *      specific error.
+ *  <LI>Error conditions internal to resource adapter implementation.
+ *  </UL>
+ *
+ * @version 1.0
+ * @author Rahul Sharma
+ * @author Ram Jeyaraman
  */
-public class ResourceAdapterInternalException extends ResourceException
-{
-   /**
-    * Create an exception.
-    */
-   public ResourceAdapterInternalException()
-   {
-      super();
-   }
-   
-   /**
-	 * Create an exception with a reason.
-	 */
-   public ResourceAdapterInternalException(String reason)
-   {
-      super(reason);
-   }
 
-   /**
-	 * Create an exception with a reason and an errorCode.
-	 */
-   public ResourceAdapterInternalException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+public class ResourceAdapterInternalException 
+        extends javax.resource.ResourceException {
 
-   /**
-    * Create an exception with a reason and cause.
-    * 
-    * @param reason the reason
-    * @param cause the cause
-    */
-   public ResourceAdapterInternalException(String reason, Throwable cause)
-   {
-      super(reason, cause);
-   }
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public ResourceAdapterInternalException() { super(); }
 
-   /**
-    * Create an exception with a cause.
-    * 
-    * @param cause the cause
-    */
-   public ResourceAdapterInternalException(Throwable cause)
-   {
-      super(cause);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public ResourceAdapterInternalException(String message) {
+	super(message);
+    }
+
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public ResourceAdapterInternalException(Throwable cause) {
+	super(cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public ResourceAdapterInternalException(String message, Throwable cause) {
+	super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and
+     * an error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public ResourceAdapterInternalException(String message, String errorCode) {
+	super(message, errorCode);
+    }
 }

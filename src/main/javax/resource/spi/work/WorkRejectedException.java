@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,62 +19,69 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi.work;
 
-import javax.resource.ResourceException;
-
 /**
- * Thrown when a work is rejected.
+ * This exception is thrown by a <code>WorkManager</code> to indicate 
+ * that a submitted <code>Work</code> instance has been rejected. The 
+ * rejection could be due to internal factors or start timeout expiration.
+ *
+ * <p>This could be thrown only before the execution of a 
+ * <code>Work</code> instance starts (that is, before a 
+ * thread has been allocated for <code>Work</code> execution).
+
+ * <p>An associated error code indicates the nature of the error condition.
+ * Possible error codes are <code>WorkException.START_TIMED_OUT</code>,
+ * <code>WorkException.INTERNAL</code> or <code>WorkException.UNDEFINED</code>.
+ *
+ * @version 1.0
+ * @author  Ram Jeyaraman
  */
-public class WorkRejectedException extends WorkException
-{
-   /**
-    * Create an exception.
-    */
-   public WorkRejectedException()
-   {
-      super();
-   }
+public class WorkRejectedException extends WorkException {
 
-   /**
-    * Create an exception with a reason.
-    *
-    * @param reason the reason
-    */
-   public WorkRejectedException(String reason)
-   {
-      super(reason);
-   }
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public WorkRejectedException() { super(); }
 
-   /**
-    * Create an exception with a reason and an errorCode.
-    *
-    * @param reason the reason
-    * @param errorCode the error code
-    */
-   public WorkRejectedException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public WorkRejectedException(String message) {
+	super(message);
+    }
 
-   /**
-    * Create an exception with a reason and an error.
-    *
-    * @param reason the reason
-    * @param throwable the error
-    */
-   public WorkRejectedException(String reason, Throwable throwable)
-   {
-      super(reason, throwable);
-   }
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public WorkRejectedException(Throwable cause) {
+	super(cause);
+    }
 
-   /**
-    * Create an exception with an error.
-    *
-    * @param throwable the error
-    */
-   public WorkRejectedException(Throwable throwable)
-   {
-      super(throwable);
-   }
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public WorkRejectedException(String message, Throwable cause) {
+	super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and
+     * an error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public WorkRejectedException(String message, String errorCode) {
+	super(message, errorCode);
+    }
 }

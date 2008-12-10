@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,60 +19,78 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
-import javax.resource.ResourceException;
-
-/**
- * A SecurityException indicates error conditions related to the security
- * contract between an application server and a resource adapter. Common types
- * of conditions represented by this exception include: invalid security
- * information - subject, failure to connect, failure to authenticate, access
- * control exception.
+/** 
+ * A <code>SecurityException</code> indicates error conditions 
+ * related to the security
+ * contract between an application server and resource adapter. The common
+ * error conditions represented by this exception are:
+ * <UL>
+ * <LI>Invalid security information (represented as a Subject instance) passed
+ *     across the security contract - for example, credentials have expired or
+ *     have invalid format.
+ * <LI>Lack of support for a specific security mechanism in an EIS or resource 
+ *     adapter.
+ * <LI>Failure to create a connection to an EIS because of failed 
+ *     authentication or authorization.
+ * <LI>Failure to authenticate a resource principal to an EIS instance 
+ *     or failure 
+ *     to establish a secure association with an underlying EIS instance.
+ * <LI>Access control exception to indicate that a requested access to an EIS 
+ *     resource or a request to create a new connection is denied.
+ *  </UL>
+ *
+ * @version 1.0
+ * @author Rahul Sharma
+ * @author Ram Jeyaraman
  */
-public class SecurityException extends ResourceException
-{
-   /**
-	 * Create an exception.
-	 */
-   public SecurityException()
-   {
-      super();
-   }
-   /**
-	 * Create an exception with a reason.
-	 */
-   public SecurityException(String reason)
-   {
-      super(reason);
-   }
 
-   /**
-	 * Create an exception with a reason and an errorCode.
-	 */
-   public SecurityException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+public class SecurityException extends javax.resource.ResourceException {
 
-   /**
-	 * Create an exception with a reason and cause.
-	 * 
-	 * @param reason the reason
-	 * @param cause the cause
-	 */
-   public SecurityException(String reason, Throwable cause)
-   {
-      super(reason, cause);
-   }
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public SecurityException() { super(); }
 
-   /**
-	 * Create an exception with a cause.
-	 * 
-	 * @param cause the cause
-	 */
-   public SecurityException(Throwable cause)
-   {
-      super(cause);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public SecurityException(String message) {
+	super(message);
+    }
+
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public SecurityException(Throwable cause) {
+	super(cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public SecurityException(String message, Throwable cause) {
+	super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and
+     * an error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public SecurityException(String message, String errorCode) {
+	super(message, errorCode);
+    }
 }

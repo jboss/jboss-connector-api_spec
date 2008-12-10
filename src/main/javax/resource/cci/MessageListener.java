@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,21 +19,30 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.cci;
 
 import javax.resource.ResourceException;
 
-/**
- * A request/response message listener that message driven beans may implement
- */
-public interface MessageListener
-{
-   /**
-    * Request response style message listener
-    *
-    * @param inputData the input data
-    * @return the response or null
-    * @throws ResourceException for any error
-    */
-   Record onMessage(Record inputData) throws ResourceException;
+/** 
+ * This serves as a request-response message listener type that message
+ * endpoints (message-driven beans) may implement. This allows an EIS to
+ * communicate with an endpoint using a request-response style.
+ *
+ *  @author  Ram Jeyaraman
+ *  @version 1.0
+ */    
+public interface MessageListener {
+
+    /**
+     * This method allows an EIS to call a message endpoint using a 
+     * request-response style communication.
+     *
+     * @param inputData a <code>Record</code> instance.
+     *
+     * @return a <code>Record</code> instance or null.
+     *
+     * @throws ResourceException indicates an exceptional condition.
+     */
+    Record onMessage(Record inputData) throws ResourceException;
 }

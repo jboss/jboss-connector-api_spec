@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,64 +19,71 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
-import javax.resource.ResourceException;
-
 /**
- * A ApplicationServerInternalException is thrown to indicate error conditions
- * specific to the Applcation server. This could include such errors as
- * configuration related or implementation mechanism related errors.
+ * An <code>ApplicationServerInternalException</code> is thrown 
+ * by an application 
+ * server to indicate error conditions specific to an application server.
+ * These error conditions can be related to either configuration related
+ * errors or implementation of mechanisms internal to an application server
+ * (example: connection pooling, thread management).
+ * 
+ * @version 1.0
+ * @author Rahul Sharma
+ * @author Ram Jeyaraman
  */
-public class ApplicationServerInternalException extends ResourceException
-{
-   /**
-    * Create an exception.
-    */
-   public ApplicationServerInternalException()
-   {
-      super();
-   }
-   
-   /**
-	 * Create an exception with a reason.
-    * 
-    * @param reason the reason
-	 */
-   public ApplicationServerInternalException(String reason)
-   {
-      super(reason);
-   }
 
-   /**
-	 * Create an exception with a reason and an errorCode.
-    * 
-    * @param reason the reason
-    * @param errorCode the error code
-	 */
-   public ApplicationServerInternalException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+public class ApplicationServerInternalException 
+        extends javax.resource.ResourceException {
 
-   /**
-    * Create an exception with a reason and cause.
-    * 
-    * @param reason the reason
-    * @param cause the cause
-    */
-   public ApplicationServerInternalException(String reason, Throwable cause)
-   {
-      super(reason, cause);
-   }
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public ApplicationServerInternalException() { super(); }
 
-   /**
-    * Create an exception with a cause.
-    * 
-    * @param cause the cause
-    */
-   public ApplicationServerInternalException(Throwable cause)
-   {
-      super(cause);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public ApplicationServerInternalException(String message) {
+	super(message);
+    }
+
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type 
+     * <code>Throwable</code>.
+     */
+    public ApplicationServerInternalException(Throwable cause) {
+	super(cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type 
+     * <code>Throwable</code>.
+     */
+    public ApplicationServerInternalException(
+            String message, Throwable cause) {
+	super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and 
+     * an error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public ApplicationServerInternalException(
+            String message, String errorCode) {
+	super(message, errorCode);
+    }
 }

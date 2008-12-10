@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,65 +19,69 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
+
 package javax.resource;
 
 /**
- * A NotSupportedException is thrown to indicate that the callee (resource
- * adapter or application server for system contracts) cannot execute an
- * operation because the operation is not a supported feature. For example, if
- * the transaction support level for a resource adapter is NO_TRANSACTION, an
- * invocation of ManagedConnection.getXAResource method should throw
- * NotSupportedException exception.
+ * A <code>NotSupportedException</code> is thrown to indicate that 
+ * callee (resource adapter
+ * or application server for system contracts) cannot execute an operation 
+ * because the operation is not a supported feature. For example, if the 
+ * transaction support level for a resource adapter is 
+ * <code>NO_TRANSACTION</code>, an invocation of <code>getXAResource</code> 
+ * method on a <code>ManagedConnection</code> object should throw a
+ * <code>NotSupportedException</code> exception.
+ * 
+ * @version 1.0
+ * @author Rahul Sharma
+ * @author Ram Jeyaraman
  */
-public class NotSupportedException extends ResourceException
-{
-   /**
-	 * Create a not supported exception.
-	 */
-   public NotSupportedException()
-   {
-      super();
-   }
 
-   /**
-	 * Create a not supported exception with a reason.
-	 * 
-	 * @param reason the reason
-	 */
-   public NotSupportedException(String reason)
-   {
-      super(reason);
-   }
+public class NotSupportedException extends javax.resource.ResourceException {
+    
+    /**
+     * Constructs a new instance with null as its detail message.
+     */
+    public NotSupportedException() { super(); }
 
-   /**
-	 * Create a not supported exception with a reason and an errorCode.
-	 * 
-	 * @param reason the reason
-	 * @param errorCode the error code
-	 */
-   public NotSupportedException(String reason, String errorCode)
-   {
-      super(reason, errorCode);
-   }
+    /**
+     * Constructs a new instance with the specified detail message.
+     *
+     * @param message the detail message.
+     */
+    public NotSupportedException(String message) {
+	super(message);
+    }
 
-   /**
-	 * Create a not supported exception with a reason and an error.
-	 * 
-	 * @param reason the reason
-	 * @param throwable the error
-	 */
-   public NotSupportedException(String reason, Throwable throwable)
-   {
-      super(reason, throwable);
-   }
+    /**
+     * Constructs a new throwable with the specified cause.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public NotSupportedException(Throwable cause) {
+	super(cause);
+    }
 
-   /**
-	 * Create a not supported exception with an error.
-	 * 
-	 * @param throwable the error
-	 */
-   public NotSupportedException(Throwable throwable)
-   {
-      super(throwable);
-   }
+    /**
+     * Constructs a new throwable with the specified detail message and cause.
+     *
+     * @param message the detail message.
+     *
+     * @param cause a chained exception of type <code>Throwable</code>.
+     */
+    public NotSupportedException(String message, Throwable cause) {
+	super(message, cause);
+    }
+
+    /**
+     * Constructs a new throwable with the specified detail message and
+     * error code.
+     *
+     * @param message a description of the exception.
+     * @param errorCode a string specifying the vendor specific error code.
+     */
+    public NotSupportedException(String message, String errorCode) {
+	super(message, errorCode);
+    }
 }

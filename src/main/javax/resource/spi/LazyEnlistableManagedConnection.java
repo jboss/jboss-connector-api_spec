@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,12 +19,17 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
 /**
- * A marker interface for connections that support the lazy connection
- * enlistment optimization.
+ * This is a mix-in interface that may be optionally implemented by a 
+ * <code>ManagedConnection</code> implementation. An implementation of
+ * this interface must support the lazy transaction enlistment optimization.
+ *
+ * @version 1.0
+ * @author  Ram Jeyaraman
  */
-public interface LazyEnlistableManagedConnection
-{
+public interface LazyEnlistableManagedConnection {
 }
+

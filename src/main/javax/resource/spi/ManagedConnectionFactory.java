@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,107 +19,180 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi;
 
-import java.io.PrintWriter;
-import java.io.Serializable;
-import java.util.Set;
-
-import javax.resource.ResourceException;
 import javax.security.auth.Subject;
+import java.util.Set;
+import javax.resource.ResourceException;
+import javax.resource.NotSupportedException;
 
-/**
- * A ManagedConnectionFactory is a factory for the creation of
- * ManagedConnection objects and ConnectionFactory objects. It provides methods
- * which can be used to match ManagedConnetions.
+/** 
+ * ManagedConnectionFactory instance is a factory of both ManagedConnection
+ *  and EIS-specific connection factory instances. This interface supports 
+ *  connection pooling by providing methods for matching and creation of
+ *  ManagedConnection instance. A ManagedConnectionFactory 
+ *  instance is required to be a JavaBean.
+ *
+ *  @version     0.6
+ *  @author      Rahul Sharma
+ *
+ *  @see         javax.resource.spi.ManagedConnection
  */
-public interface ManagedConnectionFactory extends Serializable
-{
-   /**
-	 * Creates a connection factory instance. The connection manager is provided
-    * by the resource adapter.
-    * 
-    * @return the connection factory
-    * @throws ResourceException for a generic error 
-    * @throws ResourceAdapterInternalException for an internal error in the
-    *            resource adapter
-	 */
-   public Object createConnectionFactory() throws ResourceException;
 
-   /**
-	 * Creates a connection factory instance. the connection manager is provided
-    * by the application server
-    * 
-    * @param cxManager the connection manager
-    * @return the connection factory
-    * @throws ResourceException for a generic error 
-    * @throws ResourceAdapterInternalException for an internal error in the
-    *            resource adapter
-	 */
-   public Object createConnectionFactory(ConnectionManager cxManager) throws ResourceException;
+public interface ManagedConnectionFactory extends java.io.Serializable {
 
-   /**
-	 * Creates a new ManagedConnection
-    * 
-    * @param subject the subject
-    * @param cxRequestInfo the connection request info
-    * @return the managed connection
-    * @throws ResourceException for a generic error 
-    * @throws ResourceAllocationException for an error allocting resources
-    * @throws ResourceAdapterInternalException for an internal error in the
-    *            resource adapter
-    * @throws SecurityException for a security problem
-    * @throws EISSystemException for an error from the EIS
-	 */
-   public ManagedConnection createManagedConnection(Subject subject, ConnectionRequestInfo cxRequestInfo)
-         throws ResourceException;
+    /**
+     * Creates a Connection Factory instance. The Connection Factory
+     *  instance gets initialized with the passed ConnectionManager. In
+     *  the managed scenario, ConnectionManager is provided by the 
+     *  application server.
+     *
+     *  @param    cxManager    ConnectionManager to be associated with
+     *                         created EIS connection factory instance
+     *  @return   EIS-specific Connection Factory instance or
+     *            javax.resource.cci.ConnectionFactory instance
+     *   
+     *  @throws   ResourceException     Generic exception
+     *  @throws   ResourceAdapterInternalException
+     *                Resource adapter related error condition
+     */
+    public Object createConnectionFactory(ConnectionManager cxManager)
+	throws ResourceException;
 
-   /**
-    * Returns a matching connection from the set.
-    * 
-    * @param connectionSet the connection set
-    * @param subject the subject
-    * @param cxRequestInfo the connection request info
-    * @return the managed connection
-    * @throws ResourceException for a generic error 
-    * @throws ResourceAdapterInternalException for an internal error in the
-    *            resource adapter
-    * @throws SecurityException for a security problem
-    * @throws NotSupportedException if not supported
-    */
-   public ManagedConnection matchManagedConnections(Set connectionSet, Subject subject,
-                                                    ConnectionRequestInfo cxRequestInfo) throws ResourceException;
+    /**
+     * Creates a Connection Factory instance. The Connection Factory 
+     *  instance gets initialized with a default ConnectionManager provided
+     *  by the resource adapter.
+     *
+     *  @return   EIS-specific Connection Factory instance or
+     *            javax.resource.cci.ConnectionFactory instance
+     *
+     *  @throws   ResourceException     Generic exception
+     *  @throws   ResourceAdapterInternalException
+     *                Resource adapter related error condition
+     */
+    public Object createConnectionFactory() throws ResourceException;
 
-   /**
-    * Gets the logwriter for this instance.
-    * 
-    * @return the log writer
-    * @throws ResourceException for a generic error 
-    */
-   public PrintWriter getLogWriter() throws ResourceException;
-   
-   /**
-    * Sets the logwriter for this instance.
-    * 
-    * @param out the log writer
-    * @throws ResourceException for a generic error 
-    * @throws ResourceAdapterInternalException for an internal error in the
-    *            resource adapter
-    */
-   public void setLogWriter(PrintWriter out) throws ResourceException;
-   
-   /**
-	 * Tests object for equality
-    * 
-    * @param other the other object
-    * @return true when equals, false otherwise
-	 */
-   public boolean equals(Object other);
+ 
+    /** 
+     * Creates a new physical connection to the underlying EIS 
+     *  resource manager.
+     *
+     *  <p>ManagedConnectionFactory uses the security information (passed as
+     *  Subject) and additional ConnectionRequestInfo (which is specific to
+     *  ResourceAdapter and opaque to application server) to create this new
+     *  connection.
+     *
+     *  @param   subject        Caller's security information
+     *  @param   cxRequestInfo  Additional resource adapter specific connection
+     *                          request information
+     *
+     *  @throws  ResourceException     generic exception
+     *  @throws  SecurityException     security related error
+     *  @throws  ResourceAllocationException
+     *                                 failed to allocate system resources for
+     *                                 connection request
+     *  @throws  ResourceAdapterInternalException
+     *                                 resource adapter related error condition
+     *  @throws  EISSystemException    internal error condition in EIS instance
+     *
+     *  @return  ManagedConnection instance
+     */
+    public ManagedConnection createManagedConnection(
+			      Subject subject, 
+			      ConnectionRequestInfo cxRequestInfo) 
+	throws ResourceException;
 
-   /**
-	 * Generates a hashCode for this object
-    * 
-    * @return the hash code
-	 */
-   public int hashCode();
+    /** 
+     * Returns a matched connection from the candidate set of connections. 
+     *  
+     *  
+     *  <p>ManagedConnectionFactory uses the security info (as in Subject)
+     *  and information provided through ConnectionRequestInfo and additional
+     *  Resource Adapter specific criteria to do matching. Note that criteria
+     *  used for matching is specific to a resource adapter and is not
+     *  prescribed by the Connector specification.</p>
+     *
+     *  <p>This method returns a ManagedConnection instance that is the best 
+     *  match for handling the connection allocation request.</p>
+     *
+     *  @param   connectionSet   candidate connection set
+     *  @param   subject         caller's security information
+     *  @param   cxRequestInfo   additional resource adapter specific 
+     *                           connection request information  
+     *
+     *  @throws  ResourceException     generic exception
+     *  @throws  SecurityException     security related error
+     *  @throws  ResourceAdapterInternalException
+     *                                 resource adapter related error condition
+     *  @throws  NotSupportedException if operation is not supported
+     *
+     *  @return  ManagedConnection     if resource adapter finds an
+     *                                 acceptable match otherwise null
+     **/
+    public ManagedConnection matchManagedConnections(
+				      Set connectionSet,
+				      Subject subject,
+				      ConnectionRequestInfo  cxRequestInfo) 
+	throws ResourceException;
+
+    /** 
+     * Set the log writer for this ManagedConnectionFactory instance.</p>
+     *
+     *  <p>The log writer is a character output stream to which all logging and
+     *  tracing messages for this ManagedConnectionfactory instance will be 
+     *  printed.</p>
+     *
+     * <p>ApplicationServer manages the association of output stream with the
+     *  ManagedConnectionFactory. When a ManagedConnectionFactory object is 
+     *  created the log writer is initially null, in other words, logging is 
+     *  disabled. Once a log writer is associated with a
+     *  ManagedConnectionFactory, logging and tracing for 
+     *  ManagedConnectionFactory instance is enabled.
+     *
+     *  <p>The ManagedConnection instances created by ManagedConnectionFactory
+     *  "inherits" the log writer, which can be overridden by ApplicationServer
+     *  using ManagedConnection.setLogWriter to set ManagedConnection specific
+     *  logging and tracing.
+     *
+     *  @param   out                   PrintWriter - an out stream for
+     *                                 error logging and tracing
+     *  @throws  ResourceException     generic exception
+     *  @throws  ResourceAdapterInternalException
+     *                                 resource adapter related error condition
+     */
+    public void setLogWriter(java.io.PrintWriter out) throws ResourceException;
+
+    /** 
+     * Get the log writer for this ManagedConnectionFactory instance.
+     *
+     *  <p>The log writer is a character output stream to which all logging and
+     *  tracing messages for this ManagedConnectionFactory instance will be 
+     *  printed
+     *
+     *  <p>ApplicationServer manages the association of output stream with the
+     *  ManagedConnectionFactory. When a ManagedConnectionFactory object is 
+     *  created the log writer is initially null, in other words, logging is 
+     *  disabled.
+     *
+     *  @return  PrintWriter
+     *  @throws  ResourceException     generic exception
+     */
+    public java.io.PrintWriter getLogWriter() throws ResourceException;
+
+    /** 
+     * Returns the hash code for the ManagedConnectionFactory
+     * 
+     *  @return  hash code for the ManagedConnectionFactory
+     */
+    public int hashCode();
+
+    /** 
+     * Check if this ManagedConnectionFactory is equal to another
+     * ManagedConnectionFactory.
+     *
+     *  @return  true if two instances are equal
+     */
+    public boolean equals(Object other);
 }

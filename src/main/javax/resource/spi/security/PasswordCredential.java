@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,97 +19,132 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
-package javax.resource.spi.security;
 
-import java.io.Serializable;
-import java.util.Arrays;
+package javax.resource.spi.security;
 
 import javax.resource.spi.ManagedConnectionFactory;
 
 /**
- * The class PasswordCredential is a placeholder for username and password.
- * @version $Revision$
+ * The class PasswordCredential acts as a holder for username and
+ * password.
+ *
+ * @see javax.resource.spi.ManagedConnectionFactory
+ *
+ * @author  Rahul Sharma
+ * @version 0.6
+ * @since   0.6
  */
-public final class PasswordCredential implements Serializable
-{
-   static final long serialVersionUID = -1770833344350711674L;
 
-   /** The userName */
-   private String userName;
-   /** The password */
-   private char[] password;
+public final class PasswordCredential implements java.io.Serializable {
 
-   /** The managed connection factory */
-   private ManagedConnectionFactory mcf = null;
+  private String userName;
+  private char[] password;
+  private ManagedConnectionFactory mcf;
 
-   /**
-	 * Constructor, creates a new password credential
-	 * 
-	 * @param userName the user name
-	 * @param password the password
-	 */
-   public PasswordCredential(String userName, char[] password)
-   {
-      this.userName = userName;
-      this.password = password;
-   }
+  /**
+   * Creates a new <code>PasswordCredential</code> object from the given
+   * user name and password.
+   *
+   * <p> Note that the given user password is cloned before it is stored in
+   * the new <code>PasswordCredential</code> object.
+   *
+   * @param userName the user name
+   * @param password the user's password
+  **/
+  public 
+  PasswordCredential(String userName, char[] password) {
+    this.userName = userName;
+    this.password = (char[])password.clone();
+  }
 
-   /**
-	 * Returns the username
-	 * 
-	 * @return Username
-	 */
-   public String getUserName()
-   {
-      return userName;
-   }
+  /**
+   * Returns the user name.
+   *
+   * @return the user name
+  **/
+  public 
+  String getUserName() {
+    return userName;
+  }
 
-   /**
-	 * Returns the password
-	 * 
-	 * @return password
-	 */
-   public char[] getPassword()
-   {
-      return password;
-   }
+  /**
+   * Returns the user password.
+   *
+   * <p> Note that this method returns a reference to the password. It is
+   * the caller's responsibility to zero out the password information after
+   * it is no longer needed.
+   *
+   * @return the password
+  **/
+  public 
+  char[] getPassword() {
+    return password;
+  }
 
-   /**
-	 * Get the managed connection factory associated with this username password
-	 * pair.
-    * 
-    * @return the managed connection factory
-	 */
-   public ManagedConnectionFactory getManagedConnectionFactory()
-   {
-      return mcf;
-   }
+  /** Gets the target ManagedConnectionFactory for which the user name and 
+   *  password has been set by the application server. A ManagedConnection-
+   *  Factory uses this field to find out whether PasswordCredential should
+   *  be used by it for sign-on to the target EIS instance.
+   *
+   *  @return    ManagedConnectionFactory instance for which user name and
+   *             password have been specified
+   **/
+  public
+  ManagedConnectionFactory getManagedConnectionFactory() {
+    return mcf;
+  }
 
-   /**
-	 * Set the managed connection factory associated with this username password
-	 * pair.
-    * 
-    * @param mcf the managed connection factory
-	 */
-   public void setManagedConnectionFactory(ManagedConnectionFactory mcf)
-   {
-      this.mcf = mcf;
-   }
+ /**  Sets the target ManagedConenctionFactory instance for which the user 
+  *   name and password has been set by the application server.
+   *
+   *  @param     mcf   ManagedConnectionFactory instance for which user name
+   *                   and password have been specified
+   **/
+  public
+  void setManagedConnectionFactory(ManagedConnectionFactory mcf) {
+    this.mcf = mcf;
+  }
 
-   public boolean equals(Object other)
-   {
-      if (this == other)
-         return true;
-      if (other == null || getClass() != other.getClass())
-         return false;
-      final PasswordCredential otherCredential = (PasswordCredential) other;
-      if( userName == null && userName != otherCredential.userName )
-         return false;
-      return userName.equals(otherCredential.userName) && Arrays.equals(password, otherCredential.password);
-   }
+  /** Compares this PasswordCredential with the specified object for 
+   *  equality. The two PasswordCredential instances are the same if
+   *  they are equal in username and password.
+   *
+   *  @param other  Object to which PasswordCredential is to be compared
+   *  @return <tt>true</tt> if and if the specified object is a
+   *            PasswordCredential whose username and password are
+   *            equal to this instance.
+  **/
+  public 
+  boolean equals(Object other) {
+    if (!(other instanceof PasswordCredential))
+      return false;
 
-   public int hashCode()
-   {
-      return userName.hashCode();
-   }
+    PasswordCredential pc = (PasswordCredential)other;
+
+    if (!(userName.equals(pc.userName)))
+      return false;
+
+    if (password.length != pc.password.length)
+      return false;
+    
+    for (int i = 0; i < password.length;i++) {
+      if (password[i] != pc.password[i]) 
+	return false;
+    }
+
+    return true;
+  }
+
+  /** Returns the hash code for this PasswordCredential
+   * 
+   *  @return  hash code for this PasswordCredential
+  **/
+  public
+  int hashCode() {
+    String s = userName;
+    s += new String(password);
+    return s.hashCode();
+  }
+
 }
+

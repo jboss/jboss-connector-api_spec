@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
+* Copyright 2008, JBoss Inc., and individual contributors as indicated
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -19,45 +19,76 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+
 package javax.resource.spi.endpoint;
 
-import java.lang.reflect.Method;
-
+import java.lang.NoSuchMethodException;
 import javax.resource.ResourceException;
+import javax.resource.spi.ResourceAdapterInternalException;
+import javax.resource.spi.ApplicationServerInternalException;
+import javax.resource.spi.IllegalStateException;
+import javax.resource.spi.UnavailableException;
 
 /**
- * A factory for message end points
+ * This defines a contract for a message endpoint. This is implemented by an
+ * application server.
+ *
+ * @version 1.0
+ * @author  Ram Jeyaraman
  */
-public interface MessageEndpoint
-{
-   /**
-	 * Invoked before delivery
-	 * 
-	 * @param method the method on the endpoint
-	 * @throws NoSuchMethodException when there is no such method
-	 * @throws ResourceException for a generic error
-	 * @throws ApplicationServerInternalException for an error in the
-	 *            application server
-	 * @throws IllegalStateException when not in the correct state, eg. before
-	 *            and after delivery are not paired
-    * @throws UnavailableException when the endpoint is unavailable
-	 */
-   void beforeDelivery(Method method) throws NoSuchMethodException, ResourceException;
+public interface MessageEndpoint {
 
-   /**
-	 * Invoked after delivery
-	 * 
-	 * @throws ResourceException for a generic error
-    * @throws ApplicationServerInternalException for an error in the
-    *            application server
-    * @throws IllegalStateException when not in the correct state, eg. before
-    *            and after delivery are not paired
-    * @throws UnavailableException when the endpoint is unavailable
-	 */
-   void afterDelivery() throws ResourceException;
+    /**
+     * This is called by a resource adapter before a message is delivered.
+     *
+     * @param method description of a target method. This information about
+     * the intended target method allows an application server to decide 
+     * whether to start a transaction during this method call, depending 
+     * on the transaction preferences of the target method.
+     * The processing (by the application server) of the actual message 
+     * delivery method call on the endpoint must be independent of the 
+     * class loader associated with this descriptive method object. 
+     *
+     * @throws NoSuchMethodException indicates that the specified method
+     * does not exist on the target endpoint.
+     *
+     * @throws ResourceException generic exception.
+     *
+     * @throws ApplicationServerInternalException indicates an error 
+     * condition in the application server.
+     *
+     * @throws IllegalStateException indicates that the endpoint is in an
+     * illegal state for the method invocation. For example, this occurs when
+     * <code>beforeDelivery</code> and <code>afterDelivery</code> 
+     * method calls are not paired.
+     *
+     * @throws UnavailableException indicates that the endpoint is not 
+     * available.
+     */
+    void beforeDelivery(java.lang.reflect.Method method)
+	throws NoSuchMethodException, ResourceException;
 
-   /**
-    * Release the endpoint
-    */
-   void release();
+    /**
+     * This is called by a resource adapter after a message is delivered.
+     *
+     * @throws ResourceException generic exception.
+     *
+     * @throws ApplicationServerInternalException indicates an error 
+     * condition in the application server.
+     *
+     * @throws IllegalStateException indicates that the endpoint is in an
+     * illegal state for the method invocation. For example, this occurs when
+     * beforeDelivery and afterDelivery method calls are not paired.
+     *
+     * @throws UnavailableException indicates that the endpoint is not 
+     * available.
+     */
+    void afterDelivery() throws ResourceException;
+
+    /**
+     * This method may be called by the resource adapter to indicate that it
+     * no longer needs a proxy endpoint instance. This hint may be used by
+     * the application server for endpoint pooling decisions.
+     */
+    void release();
 }
