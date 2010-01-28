@@ -1,24 +1,24 @@
 /*
-* JBoss, Home of Professional Open Source
-* Copyright 2008, JBoss Inc., and individual contributors as indicated
-* by the @authors tag. See the copyright.txt in the distribution for a
-* full listing of individual contributors.
-*
-* This is free software; you can redistribute it and/or modify it
-* under the terms of the GNU Lesser General Public License as
-* published by the Free Software Foundation; either version 2.1 of
-* the License, or (at your option) any later version.
-*
-* This software is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this software; if not, write to the Free
-* Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-* 02110-1301 USA, or see the FSF site: http://www.fsf.org.
-*/
+ * JBoss, Home of Professional Open Source.
+ * Copyright 2008-2009, Red Hat Middleware LLC, and individual contributors
+ * as indicated by the @author tags. See the copyright.txt file in the
+ * distribution for a full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 
 package javax.resource.cci;
 
@@ -75,28 +75,29 @@ import java.io.Serializable;
  *  @see     javax.resource.cci.Interaction
 **/
 
-public interface InteractionSpec extends java.io.Serializable {
+public interface InteractionSpec extends Serializable 
+{
   
-  /**Interaction Verb type: The execution of an Interaction does only a 
-   * send to the target EIS instance. The input record is sent to the
-   * EIS instance without any synchronous response in terms of an 
-   * output Record or ResultSet.
-   */
-  public static final int SYNC_SEND = 0;
-
-  /**Interaction Verb type: The execution of an Interaction sends a 
-   * request to the EIS instance and receives response synchronously. 
-   * The input record is sent to the EIS instance with the output 
-   * received either as Record or CCIResultSet.
-   **/
-  public static final int SYNC_SEND_RECEIVE = 1;
-
-  /**The execution of an Interaction results in a synchronous 
-   * receive of an output Record. An example is: a session bean gets
-   * a method invocation and it uses this SEND_RECEIVE form of 
-   * interaction to retrieve messages that have been delivered to a 
-   * message queue. 
-   **/
-  public static final int SYNC_RECEIVE = 2;
-
+   /**Interaction Verb type: The execution of an Interaction does only a 
+    * send to the target EIS instance. The input record is sent to the
+    * EIS instance without any synchronous response in terms of an 
+    * output Record or ResultSet.
+    */
+   public static final int SYNC_SEND = 0;
+   
+   /**Interaction Verb type: The execution of an Interaction sends a 
+    * request to the EIS instance and receives response synchronously. 
+    * The input record is sent to the EIS instance with the output 
+    * received either as Record or CCIResultSet.
+    **/
+   public static final int SYNC_SEND_RECEIVE = 1;
+   
+   /**The execution of an Interaction results in a synchronous 
+    * receive of an output Record. An example is: a session bean gets
+    * a method invocation and it uses this SEND_RECEIVE form of 
+    * interaction to retrieve messages that have been delivered to a 
+    * message queue. 
+    **/
+   public static final int SYNC_RECEIVE = 2;
+   
 }

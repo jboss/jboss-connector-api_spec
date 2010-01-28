@@ -20,26 +20,19 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package javax.resource.spi.work;
+package javax.resource.spi;
+
+import java.io.Serializable;
 
 /**
- * This interface models a <code>WorkManager</code> that supports distributed
- * execution of Work instances.
- * 
- * <p> A <code>DistributableWorkManager</code> may choose to distribute a
- * <code>Work</code> instance submitted by a resource adapter to another
- * <code>WorkManager</code> instance running in a different Java virtual 
- * machine (that is running in the same host or different hosts) for 
- * achieving optimal resource utilization or for providing better 
- * response times.
- * 
- * <p> A <code>WorkManager</code> implementation that supports the submission 
- * of <code>DistributableWork</code> instances must implement the
- * <code>DistributableWorkManager</code> marker interface.
+ * A marker interface indicating that the Exception is transient. It is used
+ * in situations where a previously failed operation might be able to succeed 
+ * if the resource adapter performs some recovery steps and retries the
+ * operation.
  * 
  * @since 1.6
  * @version Java EE Connector Architecture 1.6
  */
-public interface DistributableWorkManager extends WorkManager 
+public interface RetryableException extends Serializable 
 {
 }

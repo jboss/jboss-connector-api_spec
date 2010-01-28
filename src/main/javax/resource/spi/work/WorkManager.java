@@ -1,31 +1,26 @@
 /*
-* JBoss, Home of Professional Open Source
-* Copyright 2008, JBoss Inc., and individual contributors as indicated
-* by the @authors tag. See the copyright.txt in the distribution for a
-* full listing of individual contributors.
-*
-* This is free software; you can redistribute it and/or modify it
-* under the terms of the GNU Lesser General Public License as
-* published by the Free Software Foundation; either version 2.1 of
-* the License, or (at your option) any later version.
-*
-* This software is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this software; if not, write to the Free
-* Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-* 02110-1301 USA, or see the FSF site: http://www.fsf.org.
-*/
+ * JBoss, Home of Professional Open Source.
+ * Copyright 2008-2009, Red Hat Middleware LLC, and individual contributors
+ * as indicated by the @author tags. See the copyright.txt file in the
+ * distribution for a full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 
 package javax.resource.spi.work;
-
-import java.lang.Object;
-import java.lang.Runnable;
-import java.lang.Exception;
-import java.lang.Throwable;
 
 /**
  * This interface models a <code>WorkManager</code> which provides a facility
@@ -79,185 +74,207 @@ import java.lang.Throwable;
  * @version 1.0
  * @author  Ram Jeyaraman
  */
-public interface WorkManager {
-
-    /**
-     * A constant to indicate timeout duration. A zero timeout value indicates
-     * an action be performed immediately.
-     */
-    long IMMEDIATE = 0L;
-
-    /**
-     * A constant to indicate timeout duration. A maximum timeout value 
-     * indicates that an action be performed arbitrarily without any time 
-     * constraint.
-     */
-    long INDEFINITE = Long.MAX_VALUE;
-
-    /**
-     * A constant to indicate an unknown start delay duration or other unknown
-     * values.
-     */
-    long UNKNOWN = -1;
-
-    /**
-     * Accepts a <code>Work</code> instance for processing. This call
-     * blocks until the <code>Work</code> instance completes execution.
-     * There is no guarantee on when the accepted <code>Work</code> 
-     * instance would start execution ie., there is no time constraint 
-     * to start execution.
-     *
-     * @param work The unit of work to be done.  
-     * Could be long or short-lived.
-     *
-     * @throws WorkRejectedException indicates that a 
-     * <code>Work</code> instance has been rejected from further processing.
-     * This can occur due to internal factors.
-     *
-     * @throws WorkCompletedException indicates that a
-     * <code>Work</code> instance has completed execution with an exception.
-     */
-    void doWork(Work work) // startTimeout = INDEFINITE
-	throws WorkException;
-
-    /**
-     * Accepts a <code>Work</code> instance for processing. This call
-     * blocks until the <code>Work</code> instance completes execution.
-     *
-     * @param work The unit of work to be done.  
-     * Could be long or short-lived.
-     *
-     * @param startTimeout a time duration (in milliseconds) 
-     * within which the execution of the <code>Work</code> instance must
-     * start. Otherwise, the <code>Work</code> instance is rejected with a
-     * <code>WorkRejectedException</code> set to an appropriate error code 
-     * (<code>WorkRejectedException.TIMED_OUT</code>). Note, this
-     * does not offer real-time guarantees.
-     *
-     * @param execContext an object containing the execution
-     * context with which the submitted <code>Work</code> instance must
-     * be executed.
-     *
-     * @param workListener an object which would be notified
-     * when the various <code>Work</code> processing events (work accepted, 
-     * work rejected, work started, work completed) occur.
-     *
-     * @throws WorkRejectedException indicates that a 
-     * <code>Work</code> instance has been rejected from further processing.
-     * This can occur due to internal factors or start timeout expiration.
-     *
-     * @throws WorkCompletedException indicates that a
-     * <code>Work</code> instance has completed execution with an exception.
-     */
-    void doWork(Work work, long startTimeout, 
-            ExecutionContext execContext, WorkListener workListener) 
-	throws WorkException;
-
-    /**
-     * Accepts a <code>Work</code> instance for processing. This call
-     * blocks until the <code>Work</code> instance starts execution
-     * but not until its completion. There is no guarantee on when
-     * the accepted <code>Work</code> instance would start
-     * execution ie., there is no time constraint to start execution.
-     *
-     * @param work The unit of work to be done.  
-     * Could be long or short-lived.
-     *
-     * @return the time elapsed (in milliseconds) from <code>Work</code>
-     * acceptance until start of execution. Note, this does not offer 
-     * real-time guarantees. It is valid to return -1, if the actual start 
-     * delay duration is unknown.
-     *
-     * @throws WorkRejectedException indicates that a 
-     * <code>Work</code> instance has been rejected from further processing.
-     * This can occur due to internal factors.
-     */
-    long startWork(Work work) // startTimeout = INDEFINITE
-	throws WorkException;
-
-    /**
-     * Accepts a <code>Work</code> instance for processing. This call
-     * blocks until the <code>Work</code> instance starts execution
-     * but not until its completion. There is no guarantee on when
-     * the accepted <code>Work</code> instance would start
-     * execution ie., there is no time constraint to start execution.
-     *
-     * @param work The unit of work to be done.  
-     * Could be long or short-lived.
-     *
-     * @param startTimeout a time duration (in milliseconds) 
-     * within which the execution of the <code>Work</code> instance must
-     * start. Otherwise, the <code>Work</code> instance is rejected with a
-     * <code>WorkRejectedException</code> set to an appropriate error code 
-     * (<code>WorkRejectedException.TIMED_OUT</code>). Note, this
-     * does not offer real-time guarantees.
-     *
-     * @param execContext an object containing the execution
-     * context with which the submitted <code>Work</code> instance must
-     * be executed.
-     *
-     * @param workListener an object which would be notified
-     * when the various <code>Work</code> processing events (work accepted, 
-     * work rejected, work started, work completed) occur.
-     *
-     * @return the time elapsed (in milliseconds) from <code>Work</code>
-     * acceptance until start of execution. Note, this does not offer 
-     * real-time guarantees. It is valid to return -1, if the actual start 
-     * delay duration is unknown.
-     *
-     * @throws WorkRejectedException indicates that a 
-     * <code>Work</code> instance has been rejected from further processing.
-     * This can occur due to internal factors or start timeout expiration.
-     */
-    long startWork(Work work, long startTimeout, 
-            ExecutionContext execContext, WorkListener workListener) 
-	throws WorkException;
-
-    /**
-     * Accepts a <code>Work</code> instance for processing. This call
-     * does not block and returns immediately once a <code>Work</code>
-     * instance has been accepted for processing. There is no guarantee
-     * on when the submitted <code>Work</code> instance would start
-     * execution ie., there is no time constraint to start execution.
-     *
-     * @param work The unit of work to be done.  
-     * Could be long or short-lived.
-     *
-     * @throws WorkRejectedException indicates that a 
-     * <code>Work</code> instance has been rejected from further processing.
-     * This can occur due to internal factors.
-     */
-    void scheduleWork(Work work) // startTimeout = INDEFINITE
-	throws WorkException;
-
-    /**
-     * Accepts a <code>Work</code> instance for processing. This call
-     * does not block and returns immediately once a <code>Work</code>
-     * instance has been accepted for processing.
-     *
-     * @param work The unit of work to be done. 
-     * Could be long or short-lived.
-     *
-     * @param startTimeout a time duration (in milliseconds) 
-     * within which the execution of the <code>Work</code> instance must
-     * start. Otherwise, the <code>Work</code> instance is rejected with a
-     * <code>WorkRejectedException</code> set to an appropriate error code 
-     * (<code>WorkRejectedException.TIMED_OUT</code>). Note, this
-     * does not offer real-time guarantees.
-     *
-     * @param execContext an object containing the execution
-     * context with which the submitted <code>Work</code> instance must
-     * be executed.
-     *
-     * @param workListener an object which would be notified
-     * when the various <code>Work</code> processing events (work accepted, 
-     * work rejected, work started, work completed) occur.
-     *
-     * @throws WorkRejectedException indicates that a 
-     * <code>Work</code> instance has been rejected from further processing.
-     * This can occur due to internal factors.
-     */
-    void scheduleWork(Work work, long startTimeout, 
-            ExecutionContext execContext, WorkListener workListener) 
-	throws WorkException;
+public interface WorkManager 
+{
+   
+   /**
+    * A constant to indicate timeout duration. A zero timeout value indicates
+    * an action be performed immediately. The WorkManager implementation
+    * must timeout the action as soon as possible.
+    */
+   long IMMEDIATE = 0L;
+   
+   /**
+    * A constant to indicate timeout duration. A maximum timeout value 
+    * indicates that an action be performed arbitrarily without any time 
+    * constraint.
+    */
+   long INDEFINITE = Long.MAX_VALUE;
+   
+   /**
+    * A constant to indicate an unknown start delay duration or other unknown
+    * values.
+    */
+   long UNKNOWN = -1;
+   
+   /**
+    * Accepts a <code>Work</code> instance for processing. This call
+    * blocks until the <code>Work</code> instance completes execution.
+    * There is no guarantee on when the accepted <code>Work</code> 
+    * instance would start execution ie., there is no time constraint 
+    * to start execution. (that is, startTimeout=INDEFINITE)
+    *
+    * @param work The unit of work to be done.  
+    * Could be long or short-lived.
+    *
+    * @throws WorkException Thrown if an error occurs
+    *
+    * @throws WorkRejectedException indicates that a 
+    * <code>Work</code> instance has been rejected from further processing.
+    * This can occur due to internal factors.
+    *
+    * @throws WorkCompletedException indicates that a
+    * <code>Work</code> instance has completed execution with an exception.
+    */
+   void doWork(Work work)
+      throws WorkException;
+   
+   /**
+    * Accepts a <code>Work</code> instance for processing. This call
+    * blocks until the <code>Work</code> instance completes execution.
+    *
+    * @param work The unit of work to be done.  
+    * Could be long or short-lived.
+    *
+    * @param startTimeout a time duration (in milliseconds) 
+    * within which the execution of the <code>Work</code> instance must
+    * start. Otherwise, the <code>Work</code> instance is rejected with a
+    * <code>WorkRejectedException</code> set to an appropriate error code 
+    * (<code>WorkRejectedException.TIMED_OUT</code>). Note, this
+    * does not offer real-time guarantees.
+    *
+    * @param execContext an object containing the execution
+    * context with which the submitted <code>Work</code> instance must
+    * be executed.
+    *
+    * @param workListener an object which would be notified
+    * when the various <code>Work</code> processing events (work accepted, 
+    * work rejected, work started, work completed) occur.
+    *
+    * @throws WorkException Thrown if an error occurs
+    *
+    * @throws WorkRejectedException indicates that a 
+    * <code>Work</code> instance has been rejected from further processing.
+    * This can occur due to internal factors or start timeout expiration.
+    *
+    * @throws WorkCompletedException indicates that a
+    * <code>Work</code> instance has completed execution with an exception.
+    */
+   void doWork(Work work,
+               long startTimeout, 
+               ExecutionContext execContext, 
+               WorkListener workListener) 
+      throws WorkException;
+   
+   /**
+    * Accepts a <code>Work</code> instance for processing. This call
+    * blocks until the <code>Work</code> instance starts execution
+    * but not until its completion. There is no guarantee on when
+    * the accepted <code>Work</code> instance would start
+    * execution ie., there is no time constraint to start execution
+    * (that is, startTimeout=INDEFINITE)
+    *
+    * @param work The unit of work to be done.  
+    * Could be long or short-lived.
+    *
+    * @return the time elapsed (in milliseconds) from <code>Work</code>
+    * acceptance until start of execution. Note, this does not offer 
+    * real-time guarantees. It is valid to return -1, if the actual start 
+    * delay duration is unknown.
+    *
+    * @throws WorkException Thrown if an error occurs
+    *
+    * @throws WorkRejectedException indicates that a 
+    * <code>Work</code> instance has been rejected from further processing.
+    * This can occur due to internal factors.
+    */
+   long startWork(Work work)
+      throws WorkException;
+   
+   /**
+    * Accepts a <code>Work</code> instance for processing. This call
+    * blocks until the <code>Work</code> instance starts execution
+    * but not until its completion. There is no guarantee on when
+    * the accepted <code>Work</code> instance would start
+    * execution ie., there is no time constraint to start execution.
+    *
+    * @param work The unit of work to be done.  
+    * Could be long or short-lived.
+    *
+    * @param startTimeout a time duration (in milliseconds) 
+    * within which the execution of the <code>Work</code> instance must
+    * start. Otherwise, the <code>Work</code> instance is rejected with a
+    * <code>WorkRejectedException</code> set to an appropriate error code 
+    * (<code>WorkRejectedException.TIMED_OUT</code>). Note, this
+    * does not offer real-time guarantees.
+    *
+    * @param execContext an object containing the execution
+    * context with which the submitted <code>Work</code> instance must
+    * be executed.
+    *
+    * @param workListener an object which would be notified
+    * when the various <code>Work</code> processing events (work accepted, 
+    * work rejected, work started, work completed) occur.
+    *
+    * @return the time elapsed (in milliseconds) from <code>Work</code>
+    * acceptance until start of execution. Note, this does not offer 
+    * real-time guarantees. It is valid to return -1, if the actual start 
+    * delay duration is unknown.
+    *
+    * @throws WorkException Thrown if an error occurs
+    *
+    * @throws WorkRejectedException indicates that a 
+    * <code>Work</code> instance has been rejected from further processing.
+    * This can occur due to internal factors or start timeout expiration.
+    */
+   long startWork(Work work, 
+                  long startTimeout, 
+                  ExecutionContext execContext, 
+                  WorkListener workListener) 
+      throws WorkException;
+   
+   /**
+    * Accepts a <code>Work</code> instance for processing. This call
+    * does not block and returns immediately once a <code>Work</code>
+    * instance has been accepted for processing. There is no guarantee
+    * on when the submitted <code>Work</code> instance would start
+    * execution ie., there is no time constraint to start execution
+    * (that is, startTimeout=INDEFINITE).
+    *
+    * @param work The unit of work to be done.  
+    * Could be long or short-lived.
+    *
+    * @throws WorkException Thrown if an error occurs
+    *
+    * @throws WorkRejectedException indicates that a 
+    * <code>Work</code> instance has been rejected from further processing.
+    * This can occur due to internal factors.
+    */
+   void scheduleWork(Work work)
+      throws WorkException;
+   
+   /**
+    * Accepts a <code>Work</code> instance for processing. This call
+    * does not block and returns immediately once a <code>Work</code>
+    * instance has been accepted for processing.
+    *
+    * @param work The unit of work to be done. 
+    * Could be long or short-lived.
+    *
+    * @param startTimeout a time duration (in milliseconds) 
+    * within which the execution of the <code>Work</code> instance must
+    * start. Otherwise, the <code>Work</code> instance is rejected with a
+    * <code>WorkRejectedException</code> set to an appropriate error code 
+    * (<code>WorkRejectedException.TIMED_OUT</code>). Note, this
+    * does not offer real-time guarantees.
+    *
+    * @param execContext an object containing the execution
+    * context with which the submitted <code>Work</code> instance must
+    * be executed.
+    *
+    * @param workListener an object which would be notified
+    * when the various <code>Work</code> processing events (work accepted, 
+    * work rejected, work started, work completed) occur.
+    *
+    * @throws WorkException Thrown if an error occurs
+    *
+    * @throws WorkRejectedException indicates that a 
+    * <code>Work</code> instance has been rejected from further processing.
+    * This can occur due to internal factors.
+    */
+   void scheduleWork(Work work,
+                     long startTimeout, 
+                     ExecutionContext execContext, 
+                     WorkListener workListener) 
+      throws WorkException;
 }

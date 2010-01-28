@@ -1,24 +1,24 @@
 /*
-* JBoss, Home of Professional Open Source
-* Copyright 2008, JBoss Inc., and individual contributors as indicated
-* by the @authors tag. See the copyright.txt in the distribution for a
-* full listing of individual contributors.
-*
-* This is free software; you can redistribute it and/or modify it
-* under the terms of the GNU Lesser General Public License as
-* published by the Free Software Foundation; either version 2.1 of
-* the License, or (at your option) any later version.
-*
-* This software is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this software; if not, write to the Free
-* Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-* 02110-1301 USA, or see the FSF site: http://www.fsf.org.
-*/
+ * JBoss, Home of Professional Open Source.
+ * Copyright 2008-2009, Red Hat Middleware LLC, and individual contributors
+ * as indicated by the @author tags. See the copyright.txt file in the
+ * distribution for a full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 
 package javax.resource.cci;
 
@@ -54,64 +54,56 @@ package javax.resource.cci;
  *  @see     javax.resource.cci.Interaction
  *  @see     java.sql.ResultSet
 **/    
-public interface Record extends java.lang.Cloneable, java.io.Serializable {
+public interface Record extends java.lang.Cloneable, java.io.Serializable 
+{
  
-  /** Gets the name of the Record.
-   *  
-   *  @return  String representing name of the Record
-  **/
-  public
-  String getRecordName();
+   /** Gets the name of the Record.
+    *  
+    *  @return  String representing name of the Record
+    **/
+   public String getRecordName();
   
-  /** Sets the name of the Record.
-   *  
-   *  @param   name           Name of the Record
-  **/
-  public
-  void setRecordName(String name);
+   /** Sets the name of the Record.
+    *  
+    *  @param   name           Name of the Record
+    **/
+   public void setRecordName(String name);
   
-  /** Sets a short description string for the Record. This property
-   *  is used primarily by application development tools.
-   *
-   *  @param   description    Description of the Record
-  **/
-  public
-  void setRecordShortDescription(String description);
+   /** Sets a short description string for the Record. This property
+    *  is used primarily by application development tools.
+    *
+    *  @param   description    Description of the Record
+    **/
+   public void setRecordShortDescription(String description);
 
-  /** Gets a short description string for the Record. This property
-   *  is used primarily by application development tools.
-   *
-   *  @return  String representing a short description of the Record
-  **/
-  public
-  String getRecordShortDescription();
+   /** Gets a short description string for the Record. This property
+    *  is used primarily by application development tools.
+    *
+    *  @return  String representing a short description of the Record
+    **/
+   public String getRecordShortDescription();
 
-  /** Check if this instance is equal to another Record.
-   *
-   *  @return  true if two instances are equal
-  **/
-  public
-  boolean equals(Object other);
+   /** Check if this instance is equal to another Record.
+    *  @param other The other object
+    *  @return  true if two instances are equal
+    **/
+   public boolean equals(Object other);
 
+   /** Returns the hash code for the Record instance.
+    * 
+    *  @return  hash code
+    **/
+   public int hashCode();
 
-  /** Returns the hash code for the Record instance.
-   * 
-   *  @return  hash code
-  **/
-  public
-  int hashCode();
-
-  /** Creates and returns a copy of this object. The precise 
-   *  meaning of "copy" may depend on the class of the object.
-   *
-   *  @return a clone of this instance.
-   *  @throws  CloneNotSupportedException 
-   *           If the object's class does not support the 
-   *           Cloneable interface Subclasses that override the 
-   *           clone method can also throw this exception to 
-   *           indicate that an instance cannot be cloned.
-  **/
-  public
-  Object clone() throws CloneNotSupportedException;
-
+   /** Creates and returns a copy of this object. The precise 
+    *  meaning of "copy" may depend on the class of the object.
+    *
+    *  @return a clone of this instance.
+    *  @throws  CloneNotSupportedException 
+    *           If the object's class does not support the 
+    *           Cloneable interface Subclasses that override the 
+    *           clone method can also throw this exception to 
+    *           indicate that an instance cannot be cloned.
+    **/
+   public Object clone() throws CloneNotSupportedException;
 }
