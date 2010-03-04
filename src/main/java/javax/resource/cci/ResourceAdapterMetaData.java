@@ -27,7 +27,7 @@ package javax.resource.cci;
  * 
  * The resource adapter does not require an active connection to exist in order
  * for the client to retrieve and use this data.
- * @version $Revision: 37459 $
+ * @version $Revision$
  */
 public interface ResourceAdapterMetaData
 {

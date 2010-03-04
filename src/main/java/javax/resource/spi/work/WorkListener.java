@@ -25,7 +25,7 @@ import java.util.EventListener;
 
 /**
  * Listens to events on work
- * @version $Revision: 37459 $
+ * @version $Revision$
  */
 public interface WorkListener extends EventListener
 {

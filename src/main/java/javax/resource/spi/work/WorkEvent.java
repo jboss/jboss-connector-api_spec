@@ -31,7 +31,7 @@ import org.jboss.util.id.SerialVersion;
 
 /**
  * Events that occur on work
- * @version $Revision: 37459 $
+ * @version $Revision$
  */
 public class WorkEvent extends EventObject
 {

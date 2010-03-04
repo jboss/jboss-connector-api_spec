@@ -28,7 +28,7 @@ import javax.resource.spi.ManagedConnectionFactory;
 
 /**
  * The class PasswordCredential is a placeholder for username and password.
- * @version $Revision: 37459 $
+ * @version $Revision$
  */
 public final class PasswordCredential implements Serializable
 {

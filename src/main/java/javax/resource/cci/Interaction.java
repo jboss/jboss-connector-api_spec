@@ -30,7 +30,7 @@ import javax.resource.ResourceException;
  * 
  * An Interaction is created from a Connection and maintains an association
  * with the Connection for its entire lifetime.
- * @version $Revision: 37459 $
+ * @version $Revision$
  */
 public interface Interaction
 {

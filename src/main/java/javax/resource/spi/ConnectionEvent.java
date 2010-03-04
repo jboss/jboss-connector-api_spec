@@ -50,7 +50,7 @@ import org.jboss.util.id.SerialVersion;
  * <li>Local transaction rolled back</li>
  * <li>Connection error occurred</li>
  * </ul>
- * @version $Revision: 37459 $
+ * @version $Revision$
  */
 public class ConnectionEvent extends EventObject
 {
