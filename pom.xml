@@ -14,8 +14,8 @@
   <version>1.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Connector Architecture 1.6 API</name>
-  <description>Java EE Connector Architecture 1.6 API classes</description>
+  <name>Java(TM) EE Connector Architecture 1.6 API</name>
+  <description>JSR 322: Java(TM) EE Connector Architecture 1.6 API</description>
   
   <licenses>
     <license>
@@ -58,6 +58,61 @@
             </configuration>            
           </execution>
         </executions>
+      </plugin>
+
+      <!-- Generate the OSGi jar Manifest. -->
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
+            </manifest>
+          </archive>
+          <instructions>
+            <Specification-Title>JSR 322: Java(TM) EE Connector Architecture</Specification-Title>
+            <Specification-Vendor>Oracle</Specification-Vendor>
+            <Specification-Version>1.6</Specification-Version>
+            <!-- Set the package version to match the spec version -->
+            <Export-Package>
+              javax.resource*;version=1.6
+            </Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+      <!-- Add the OSGi Manifest to the main jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Specification-Title>JSR 322: Java(TM) EE Connector Architecture</Specification-Title>
+              <Specification-Vendor>Oracle</Specification-Vendor>
+              <Specification-Version>1.6</Specification-Version>
+            </manifestEntries>
+          </archive>
+        </configuration>
       </plugin>
     </plugins>
   </build>
