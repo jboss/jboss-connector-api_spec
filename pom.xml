@@ -6,21 +6,26 @@
   <parent>
     <groupId>org.jboss</groupId>
     <artifactId>jboss-parent</artifactId>
-    <version>9</version>
+    <version>10</version>
   </parent>
   
   <groupId>org.jboss.spec.javax.resource</groupId>
-  <artifactId>jboss-connector-api_1.6_spec</artifactId>
-  <version>1.0.2.Final-SNAPSHOT</version>
+  <artifactId>jboss-connector-api_1.7_spec</artifactId>
+  <version>1.0.0.Alpha1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Java(TM) EE Connector Architecture 1.6 API</name>
-  <description>JSR 322: Java(TM) EE Connector Architecture 1.6 API</description>
+  <name>Java(TM) EE Connector Architecture 1.7 API</name>
+  <description>JSR 322: Java(TM) EE Connector Architecture 1.7 API</description>
   
   <licenses>
     <license>
-      <name>CDDL or GPLv2 with exceptions</name>
-      <url>https://glassfish.dev.java.net/public/CDDL+GPL_1_1.html</url>
+      <name>Common Development and Distribution License</name>
+      <url>http://repository.jboss.org/licenses/cddl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+    <license>
+      <name>GNU General Public License, Version 2 with the Classpath Exception</name>
+      <url>http://repository.jboss.org/licenses/gpl-2.0-ce.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -82,10 +87,10 @@
           <instructions>
             <Specification-Title>JSR 322: Java(TM) EE Connector Architecture</Specification-Title>
             <Specification-Vendor>Oracle</Specification-Vendor>
-            <Specification-Version>1.6</Specification-Version>
+            <Specification-Version>1.7</Specification-Version>
             <!-- Set the package version to match the spec version -->
             <Export-Package>
-              javax.resource*;version=1.6
+              javax.resource*;version=1.7
             </Export-Package>
           </instructions>
         </configuration>
@@ -109,7 +114,7 @@
             <manifestEntries>
               <Specification-Title>JSR 322: Java(TM) EE Connector Architecture</Specification-Title>
               <Specification-Vendor>Oracle</Specification-Vendor>
-              <Specification-Version>1.6</Specification-Version>
+              <Specification-Version>1.7</Specification-Version>
             </manifestEntries>
           </archive>
         </configuration>

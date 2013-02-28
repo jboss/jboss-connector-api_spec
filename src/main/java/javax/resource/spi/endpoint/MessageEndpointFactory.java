@@ -1,3 +1,25 @@
+/*
+ * JBoss, Home of Professional Open Source.
+ * Copyright 2008-2009, Red Hat Middleware LLC, and individual contributors
+ * as indicated by the @author tags. See the copyright.txt file in the
+ * distribution for a full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+
 package javax.resource.spi.endpoint;
 
 import javax.resource.spi.UnavailableException;
@@ -48,6 +70,8 @@ public interface MessageEndpointFactory
     * @throws UnavailableException indicates a transient failure
     * in creating a message endpoint. Subsequent attempts to create a message
     * endpoint might succeed.
+    *
+    * @since 1.6
     */
    MessageEndpoint createEndpoint(XAResource xaResource, long timeout)
       throws UnavailableException;
@@ -73,4 +97,22 @@ public interface MessageEndpointFactory
     */
    boolean isDeliveryTransacted(java.lang.reflect.Method method)
       throws NoSuchMethodException;
+
+   /**
+    * Returns a unique name for the message endpoint deployment represented by
+    * the MessageEndpointFactory. If the message endpoint has been deployed into
+    * a clustered application server then this method must return the same name
+    * for that message endpoints activation in each application server instance. 
+    *
+    * It is recommended that this name be human-readable since this name may be used
+    * by the resource adapter in ways that may be visible to a user or administrator.
+    *
+    * It is also recommended that this name remain unchanged even in cases when the
+    * application server is restarted or the message endpoint redeployed.
+    *
+    * @return a new <code>String</code> instance representing the unique name of the
+    *         message endpoint deployment
+    * @since 1.7
+    */
+   String getActivationName();
 }
